@@ -29,7 +29,7 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Twitter,  href: 'https://twitter.com/apkaai',                    label: 'Twitter',  color: 'hover:border-sky-500 hover:text-sky-400' },
+  { icon: Twitter,  href: 'https://x.com/apkaAI2026',                            label: 'Twitter',  color: 'hover:border-sky-500 hover:text-sky-400' },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/apkaai-3784a1433/', label: 'LinkedIn', color: 'hover:border-blue-500 hover:text-blue-400' },
   { icon: Github,   href: 'https://github.com/AshutoshPanday/apkaai',      label: 'GitHub',   color: 'hover:border-slate-400 hover:text-white' },
   { icon: Mail,     href: `mailto:${EMAIL}`,                               label: 'Email',    color: 'hover:border-purple-500 hover:text-purple-400' },

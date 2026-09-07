@@ -5,9 +5,10 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const rateLimit = require('express-rate-limit')
 
-const toolsRouter = require('./routes/tools')
+const toolsRouter      = require('./routes/tools')
 const categoriesRouter = require('./routes/categories')
-const contactRouter = require('./routes/contact')
+const contactRouter    = require('./routes/contact')
+const authRouter       = require('./routes/auth')
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -41,9 +42,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'apkaai-api', timestamp: new Date().toISOString() })
 })
 
-app.use('/api/tools', toolsRouter)
+app.use('/api/tools',      toolsRouter)
 app.use('/api/categories', categoriesRouter)
-app.use('/api/contact', contactRouter)
+app.use('/api/contact',    contactRouter)
+app.use('/api/auth',       authRouter)
 
 // ── 404 Handler ───────────────────────────────────────────────────────────────
 app.use((req, res) => {

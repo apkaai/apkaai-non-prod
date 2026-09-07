@@ -84,8 +84,11 @@ export default function Navbar() {
             {searchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
           </button>
 
-          <Link href="/tools" className="hidden sm:inline-flex btn-primary text-white text-sm font-semibold px-4 py-2 rounded-lg">
-            Explore Tools
+          <Link href="/signin" className="hidden sm:inline-flex items-center text-slate-300 hover:text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-purple-900/20 transition-all">
+            Sign In
+          </Link>
+          <Link href="/signup" className="hidden sm:inline-flex btn-primary text-white text-sm font-semibold px-4 py-2 rounded-lg">
+            Sign Up
           </Link>
 
           <button className="lg:hidden p-2 text-slate-400 hover:text-white"
@@ -128,10 +131,14 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <div className="pt-3 border-t border-purple-900/30">
-            <Link href="/tools" onClick={() => setOpen(false)}
-              className="btn-primary block text-center text-white text-sm font-semibold px-4 py-2.5 rounded-lg">
-              Explore Tools
+          <div className="pt-3 border-t border-purple-900/30 grid grid-cols-2 gap-2">
+            <Link href="/signin" onClick={() => setOpen(false)}
+              className="text-center border border-purple-700/40 text-slate-300 text-sm font-semibold px-4 py-2.5 rounded-lg hover:border-purple-500 hover:text-white transition-all">
+              Sign In
+            </Link>
+            <Link href="/signup" onClick={() => setOpen(false)}
+              className="btn-primary text-center text-white text-sm font-semibold px-4 py-2.5 rounded-lg">
+              Sign Up
             </Link>
           </div>
         </div>

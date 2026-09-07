@@ -25,7 +25,7 @@ const contactInfo = [
     icon: Twitter,
     label: 'Twitter / X',
     value: '@apkaai',
-    href: 'https://twitter.com/apkaai',
+    href: 'https://x.com/apkaAI2026',
     desc: 'Follow for daily AI tool updates',
     external: true,
   },
