@@ -44,7 +44,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <Image src="/logo.svg" alt="ApkaAI Logo" width={28} height={28} className="rounded-lg flex-shrink-0" />
+              <Image src="/apkaai-logo.png" alt="ApkaAI Logo" width={28} height={28} className="rounded-lg flex-shrink-0" />
               <span className="text-xl font-extrabold text-white tracking-tight">
                 apka<span className="text-purple-400">AI</span>
               </span>

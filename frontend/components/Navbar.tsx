@@ -44,7 +44,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
           <div className="group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
             <Image
-              src="/logo.svg"
+              src="/apkaai-logo.png"
               alt="ApkaAI Logo"
               width={36}
               height={36}
