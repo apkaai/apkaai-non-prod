@@ -162,7 +162,7 @@ function ComparisonTable({ tools: selectedTools }: { tools: AITool[] }) {
                         String(val) === 'Free' ? 'bg-emerald-900/50 text-emerald-400'
                         : String(val) === 'Freemium' ? 'bg-blue-900/50 text-blue-400'
                         : 'bg-amber-900/50 text-amber-400'
-                      }`}>{String(val)}</span>
+                      }`}>{String(val) === 'Freemium' ? 'Premium' : String(val)}</span>
                     ) : feat.key === 'startingPrice' ? (
                       <span className="text-purple-300 font-bold text-sm">{String(val)}</span>
                     ) : (
@@ -421,7 +421,7 @@ export default function ComparePage() {
                   t.pricing === 'Free' ? 'bg-emerald-900/40 text-emerald-400'
                   : t.pricing === 'Freemium' ? 'bg-blue-900/40 text-blue-400'
                   : 'bg-amber-900/40 text-amber-400'
-                }`}>{t.pricing}</span>
+                }`}>{t.pricing === 'Freemium' ? 'Premium' : t.pricing}</span>
                 {selected.find(s => s.id === t.id) && (
                   <span className="text-purple-400 text-xs flex items-center gap-0.5"><Check className="w-3 h-3" />Added</span>
                 )}

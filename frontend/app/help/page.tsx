@@ -21,7 +21,7 @@ const faqs = [
       { q: 'Are the prices shown accurate?', a: 'We strive to keep all pricing current. Prices are shown in Indian Rupees (INR) for easy comparison. Always verify on the tool\'s official website before purchasing.' },
       { q: 'How do I get the "Get Deal / Discount" offer?', a: 'Click the "Get Deal / Discount" button on any tool page — it takes you directly to the tool\'s website where deals or free trials are available. Some offers are affiliate links.' },
       { q: 'What does "Free Trial" mean?', a: 'Tools marked "Free Trial" offer a limited-time or limited-usage free experience before requiring payment. No payment info is needed unless stated otherwise.' },
-      { q: 'What is the difference between Free and Freemium?', a: 'Free tools are completely free forever. Freemium (shown as Premium on our site) tools have a free tier plus paid plans with more features.' },
+      { q: 'What is the difference between Free and Premium?', a: 'Free tools are completely free forever. Premium tools have a free tier plus paid plans with more features.' },
     ]
   },
   {
