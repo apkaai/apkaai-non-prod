@@ -1,35 +1,28 @@
 const express = require('express')
 const router  = express.Router()
-const { DynamoDBDocumentClient, PutCommand, QueryCommand, GetCommand } = require('@aws-sdk/lib-dynamodb')
-const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
 const crypto  = require('crypto')
-const { v4: uuidv4 } = require('uuid')
+const { query } = require('../lib/db')
 
-const dynamo = DynamoDBDocumentClient.from(
-  new DynamoDBClient({ region: process.env.AWS_REGION || 'ap-south-1' }),
-  { marshallOptions: { removeUndefinedValues: true } }
-)
-
-const USERS_TABLE = process.env.DYNAMODB_USERS_TABLE || 'apkaai-users'
-
-// ── Simple hash (no bcrypt dependency needed) ─────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────────────────────
 function hashPassword(password) {
-  return crypto.createHash('sha256').update(password + process.env.PASSWORD_SALT || 'apkaai2026').digest('hex')
+  const salt = process.env.PASSWORD_SALT || 'apkaai2026secure'
+  return crypto.createHash('sha256').update(password + salt).digest('hex')
 }
 
-// ── Simple JWT-like token (base64 encoded, signed) ────────────────────────────
 function createToken(userId, email) {
-  const payload = Buffer.from(JSON.stringify({ userId, email, iat: Date.now() })).toString('base64')
-  const sig     = crypto.createHmac('sha256', process.env.JWT_SECRET || 'apkaai-secret-2026').update(payload).digest('hex').slice(0, 16)
+  const payload = Buffer.from(JSON.stringify({ userId, email, iat: Date.now() })).toString('base64url')
+  const secret  = process.env.JWT_SECRET || 'apkaai-jwt-secret-2026'
+  const sig     = crypto.createHmac('sha256', secret).update(payload).digest('hex').slice(0, 32)
   return `${payload}.${sig}`
 }
 
 function verifyToken(token) {
   try {
     const [payload, sig] = token.split('.')
-    const expected = crypto.createHmac('sha256', process.env.JWT_SECRET || 'apkaai-secret-2026').update(payload).digest('hex').slice(0, 16)
+    const secret  = process.env.JWT_SECRET || 'apkaai-jwt-secret-2026'
+    const expected = crypto.createHmac('sha256', secret).update(payload).digest('hex').slice(0, 32)
     if (sig !== expected) return null
-    return JSON.parse(Buffer.from(payload, 'base64').toString())
+    return JSON.parse(Buffer.from(payload, 'base64url').toString())
   } catch { return null }
 }
 
@@ -37,42 +30,28 @@ function verifyToken(token) {
 router.post('/register', async (req, res, next) => {
   try {
     const { name, email, password } = req.body
+    if (!name || !email || !password)
+      return res.status(400).json({ error: 'name, email and password are required' })
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      return res.status(400).json({ error: 'Invalid email address' })
+    if (password.length < 8)
+      return res.status(400).json({ error: 'Password must be at least 8 characters' })
 
-    // Validate
-    if (!name || !email || !password) return res.status(400).json({ error: 'name, email and password are required' })
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Invalid email address' })
-    if (password.length < 8) return res.status(400).json({ error: 'Password must be at least 8 characters' })
-
-    // Check if email already exists
-    const existing = await dynamo.send(new QueryCommand({
-      TableName: USERS_TABLE,
-      IndexName: 'email-index',
-      KeyConditionExpression: 'email = :e',
-      ExpressionAttributeValues: { ':e': email.toLowerCase() },
-      Limit: 1,
-    }))
-    if (existing.Items && existing.Items.length > 0) {
+    // Check existing
+    const existing = await query('SELECT user_id FROM users WHERE email = $1', [email.toLowerCase()])
+    if (existing.rowCount > 0)
       return res.status(409).json({ error: 'An account with this email already exists. Please sign in.' })
-    }
 
-    const userId = uuidv4()
-    const user   = {
-      userId,
-      email:     email.toLowerCase().trim(),
-      name:      name.trim(),
-      password:  hashPassword(password),
-      createdAt: new Date().toISOString(),
-      role:      'user',
-    }
+    const result = await query(
+      `INSERT INTO users (email, name, password, role)
+       VALUES ($1, $2, $3, 'user')
+       RETURNING user_id, email, name, role`,
+      [email.toLowerCase().trim(), name.trim(), hashPassword(password)]
+    )
 
-    await dynamo.send(new PutCommand({ TableName: USERS_TABLE, Item: user }))
-
-    const token = createToken(userId, user.email)
-    res.status(201).json({
-      success: true,
-      token,
-      user: { userId, name: user.name, email: user.email, role: user.role },
-    })
+    const user  = result.rows[0]
+    const token = createToken(user.user_id, user.email)
+    res.status(201).json({ success: true, token, user: { userId: user.user_id, name: user.name, email: user.email, role: user.role } })
   } catch (err) { next(err) }
 })
 
@@ -80,55 +59,41 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body
+    if (!email || !password)
+      return res.status(400).json({ error: 'Email and password are required' })
 
-    if (!email || !password) return res.status(400).json({ error: 'Email and password are required' })
-
-    // Find user by email
-    const result = await dynamo.send(new QueryCommand({
-      TableName: USERS_TABLE,
-      IndexName: 'email-index',
-      KeyConditionExpression: 'email = :e',
-      ExpressionAttributeValues: { ':e': email.toLowerCase().trim() },
-      Limit: 1,
-    }))
-
-    if (!result.Items || result.Items.length === 0) {
+    const result = await query(
+      'SELECT user_id, email, name, password, role FROM users WHERE email = $1',
+      [email.toLowerCase().trim()]
+    )
+    if (result.rowCount === 0)
       return res.status(401).json({ error: 'No account found with this email. Please sign up first.' })
-    }
 
-    const user = result.Items[0]
-    if (user.password !== hashPassword(password)) {
+    const user = result.rows[0]
+    if (user.password !== hashPassword(password))
       return res.status(401).json({ error: 'Incorrect password. Please try again.' })
-    }
 
-    const token = createToken(user.userId, user.email)
-    res.json({
-      success: true,
-      token,
-      user: { userId: user.userId, name: user.name, email: user.email, role: user.role },
-    })
+    const token = createToken(user.user_id, user.email)
+    res.json({ success: true, token, user: { userId: user.user_id, name: user.name, email: user.email, role: user.role } })
   } catch (err) { next(err) }
 })
 
-// ── GET /api/auth/me (protected) ──────────────────────────────────────────────
+// ── GET /api/auth/me ──────────────────────────────────────────────────────────
 router.get('/me', async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const auth = req.headers.authorization
+    if (!auth || !auth.startsWith('Bearer '))
       return res.status(401).json({ error: 'Not authenticated' })
-    }
-    const token  = authHeader.split(' ')[1]
-    const decoded = verifyToken(token)
+
+    const decoded = verifyToken(auth.split(' ')[1])
     if (!decoded) return res.status(401).json({ error: 'Invalid or expired token' })
 
-    const result = await dynamo.send(new GetCommand({
-      TableName: USERS_TABLE,
-      Key: { userId: decoded.userId },
-    }))
-    if (!result.Item) return res.status(404).json({ error: 'User not found' })
-
-    const { password: _, ...safeUser } = result.Item
-    res.json({ user: safeUser })
+    const result = await query(
+      'SELECT user_id, email, name, role, created_at FROM users WHERE user_id = $1',
+      [decoded.userId]
+    )
+    if (result.rowCount === 0) return res.status(404).json({ error: 'User not found' })
+    res.json({ user: result.rows[0] })
   } catch (err) { next(err) }
 })
 
