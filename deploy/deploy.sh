@@ -7,7 +7,7 @@
 set -euo pipefail
 
 EC2_USER="ec2-user"
-EC2_HOST="YOUR_EC2_PUBLIC_IP"    # ← replace with your EC2 Elastic IP
+EC2_HOST="3.6.107.51"            # ApkaAI EC2 Elastic IP (ap-south-1 Mumbai)
 APP_DIR="/home/ec2-user/apkaai"
 
 echo "🚀 Deploying ApkaAI to $EC2_HOST..."
