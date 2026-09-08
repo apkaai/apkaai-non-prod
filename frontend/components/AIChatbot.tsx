@@ -156,8 +156,8 @@ export default function AIChatbot() {
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-900/60 to-violet-900/40 border-b border-purple-700/30">
-            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-purple-500/50 bg-[#0F0A1E]">
-              <Image src="/chatbot-mascot.png" alt="ApkaAI Assistant" width={40} height={40} className="object-cover w-full h-full" />
+            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-purple-500/50 bg-[#0F0A1E] flex items-center justify-center">
+              <Image src="/apkaai-logo.png" alt="ApkaAI Assistant" width={40} height={40} className="object-contain w-full h-full rounded-full" />
             </div>
             <div className="flex-1">
               <div className="text-white text-sm font-bold">ApkaAI Assistant</div>
@@ -178,8 +178,8 @@ export default function AIChatbot() {
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.role === 'bot' && (
-                  <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 mr-2 mt-0.5 border border-purple-600/40 bg-[#0F0A1E]">
-                    <Image src="/chatbot-mascot.png" alt="" width={28} height={28} className="object-cover w-full h-full" />
+                  <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 mr-2 mt-0.5 border border-purple-600/40 bg-[#0F0A1E] flex items-center justify-center">
+                    <Image src="/apkaai-logo.png" alt="" width={28} height={28} className="object-contain w-full h-full rounded-full" />
                   </div>
                 )}
                 <div className={`max-w-[78%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
@@ -193,8 +193,8 @@ export default function AIChatbot() {
             ))}
             {typing && (
               <div className="flex justify-start">
-                <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 mr-2 mt-0.5 border border-purple-600/40 bg-[#0F0A1E]">
-                  <Image src="/chatbot-mascot.png" alt="" width={28} height={28} className="object-cover w-full h-full" />
+                <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 mr-2 mt-0.5 border border-purple-600/40 bg-[#0F0A1E] flex items-center justify-center">
+                  <Image src="/apkaai-logo.png" alt="" width={28} height={28} className="object-contain w-full h-full rounded-full" />
                 </div>
                 <div className="bg-[#1A1035] border border-purple-800/30 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center">
                   {[0,1,2].map(d => (
@@ -259,7 +259,7 @@ export default function AIChatbot() {
             <span className="absolute inset-0 rounded-full border-2 border-purple-400/50 animate-ping pointer-events-none" style={{ animationDuration: '2.5s' }} />
           )}
           <Image
-            src="/chatbot-mascot.png"
+            src="/apkaai-logo.png"
             alt="Chat with ApkaAI"
             width={60}
             height={60}
