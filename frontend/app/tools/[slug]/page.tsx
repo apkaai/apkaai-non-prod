@@ -188,16 +188,14 @@ export default function ToolDetailPage({ params }: Props) {
                 <ExternalLink className="w-4 h-4" />
               </a>
 
-              {/* Get Deal / Discount */}
-              <a
-                href={tool.website}
-                target="_blank"
-                rel="noopener noreferrer"
+              {/* Get Deal / Discount — now routes to custom deal page */}
+              <Link
+                href={`/deals/${tool.slug}`}
                 className="w-full flex items-center justify-center gap-2 border border-purple-700/40 hover:border-purple-500 text-slate-300 hover:text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all bg-purple-950/20 hover:bg-purple-900/20"
               >
                 Get Deal / Discount
                 <Tag className="w-4 h-4" />
-              </a>
+              </Link>
 
               {/* Meta info */}
               <div className="mt-5 space-y-3 border-t border-purple-900/30 pt-5">

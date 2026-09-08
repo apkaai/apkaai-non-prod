@@ -12,14 +12,18 @@ const contactInfo = [
     href: 'mailto:ashutoshkumarpandey@apkaai.com',
     desc: 'Contact: Ashutosh Kumar Pandey — replies within 24 hrs',
     external: false,
+    follow: false,
+    followColor: '',
   },
   {
     icon: Linkedin,
     label: 'LinkedIn',
     value: 'ApkaAI on LinkedIn',
-    href: 'https://www.linkedin.com/in/apkaai-3784a1433/',
+    href: 'https://www.linkedin.com/company/apkaai/',
     desc: 'Connect with us professionally',
     external: true,
+    follow: true,
+    followColor: 'bg-blue-900/50 text-blue-300 border border-blue-700/50',
   },
   {
     icon: Twitter,
@@ -28,6 +32,8 @@ const contactInfo = [
     href: 'https://x.com/apkaAI2026',
     desc: 'Follow for daily AI tool updates',
     external: true,
+    follow: true,
+    followColor: 'bg-sky-900/50 text-sky-300 border border-sky-700/50',
   },
   {
     icon: MapPin,
@@ -36,6 +42,8 @@ const contactInfo = [
     href: MAPS_URL,
     desc: 'Uttar Pradesh, India — click to open in Google Maps',
     external: true,
+    follow: false,
+    followColor: '',
   },
 ]
 
@@ -86,7 +94,7 @@ export default function ContactPage() {
 
           {/* Contact cards */}
           <div className="space-y-4">
-            {contactInfo.map(({ icon: Icon, label, value, href, desc, external }) => (
+            {contactInfo.map(({ icon: Icon, label, value, href, desc, external, follow, followColor }) => (
               <a
                 key={label}
                 href={href}
@@ -97,30 +105,19 @@ export default function ContactPage() {
                 <div className="w-10 h-10 rounded-lg bg-purple-900/40 border border-purple-700/30 flex items-center justify-center flex-shrink-0 group-hover:border-purple-500 transition-colors">
                   <Icon className="w-5 h-5 text-purple-400" />
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <div className="text-slate-400 text-xs font-medium uppercase tracking-wider mb-0.5">{label}</div>
                   <div className="text-white font-semibold text-sm group-hover:text-purple-300 transition-colors">{value}</div>
                   <div className="text-slate-500 text-xs mt-0.5 leading-relaxed">{desc}</div>
                 </div>
+                {follow && (
+                  <span className={`flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full mt-1 ${followColor}`}>
+                    Follow
+                  </span>
+                )}
               </a>
             ))}
 
-            {/* LinkedIn highlight */}
-            <a
-              href="https://www.linkedin.com/in/apkaai-3784a1433/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-5 rounded-xl bg-gradient-to-r from-blue-900/30 to-purple-900/20 border border-blue-700/40 hover:border-blue-500 transition-all group"
-            >
-              <div className="w-10 h-10 rounded-lg bg-blue-800/40 flex items-center justify-center flex-shrink-0">
-                <Linkedin className="w-5 h-5 text-blue-400" />
-              </div>
-              <div className="flex-1">
-                <div className="text-white font-bold text-sm">Follow on LinkedIn</div>
-                <div className="text-blue-400 text-xs">linkedin.com/in/apkaai</div>
-              </div>
-              <span className="text-xs text-blue-400 bg-blue-900/40 px-2 py-1 rounded-full">Follow</span>
-            </a>
           </div>
 
           {/* Contact form */}

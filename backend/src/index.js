@@ -9,6 +9,7 @@ const toolsRouter      = require('./routes/tools')
 const categoriesRouter = require('./routes/categories')
 const contactRouter    = require('./routes/contact')
 const authRouter       = require('./routes/auth')
+const adminRouter      = require('./routes/admin')
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -46,6 +47,7 @@ app.use('/api/tools',      toolsRouter)
 app.use('/api/categories', categoriesRouter)
 app.use('/api/contact',    contactRouter)
 app.use('/api/auth',       authRouter)
+app.use('/api/admin',      adminRouter)
 
 // ── 404 Handler ───────────────────────────────────────────────────────────────
 app.use((req, res) => {

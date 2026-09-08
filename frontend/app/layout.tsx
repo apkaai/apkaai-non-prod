@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import FloatingSocialWidget from '@/components/FloatingSocialWidget'
+import AIChatbot from '@/components/AIChatbot'
 
 export const metadata: Metadata = {
   title: 'ApkaAI — Discover & Buy the Best AI Tools',
@@ -32,6 +34,11 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        {/* Fixed widget bar — chatbot LEFT, social widget RIGHT, side by side */}
+        <div className="fixed bottom-6 right-5 z-[9999] flex flex-row items-end gap-3">
+          <AIChatbot />
+          <FloatingSocialWidget />
+        </div>
       </body>
     </html>
   )
