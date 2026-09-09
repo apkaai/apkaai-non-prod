@@ -68,7 +68,7 @@ export default function HeroSection() {
 
         {/* Sub-headline */}
         <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-          India&apos;s #1 AI marketplace. Discover, compare and access ChatGPT, Claude, Midjourney,
+          World&apos;s #1 AI marketplace. Discover, compare and access ChatGPT, Claude, Midjourney,
           Cursor and 43 premium AI tools — all in one place, at the best prices.
         </p>
 

@@ -34,7 +34,7 @@ export default function FinalCTASection() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-purple-900/50 border border-purple-700/50 rounded-full px-5 py-2 text-sm text-purple-300 mb-8">
               <Sparkles className="w-4 h-4 text-purple-400" />
-              India&apos;s #1 AI Tools Marketplace
+              World&apos;s #1 AI Tools Marketplace
             </div>
 
             {/* Headline */}
