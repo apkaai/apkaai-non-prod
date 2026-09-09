@@ -5,7 +5,7 @@ const bullets = [
   'Free to browse — no account needed',
   '43 verified AI tools across 15 categories',
   'Compare tools & find the best plan for you',
-  'India-first pricing in INR',
+  'Best pricing in INR',
 ]
 
 export default function FinalCTASection() {
@@ -44,7 +44,7 @@ export default function FinalCTASection() {
 
             {/* Sub */}
             <p className="text-slate-400 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
-              Join thousands of professionals, creators and students across India already using
+              Join thousands of professionals, creators and students across the World already using
               the best AI tools. Discover, compare and access everything from one place.
             </p>
 

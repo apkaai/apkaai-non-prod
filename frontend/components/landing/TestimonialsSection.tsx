@@ -59,7 +59,7 @@ export default function TestimonialsSection() {
             What Our Community Says
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto">
-            Professionals, students and creators across India trust ApkaAI to find the right AI tools.
+            Professionals, students and creators across the World trust ApkaAI to find the right AI tools.
           </p>
         </div>
 

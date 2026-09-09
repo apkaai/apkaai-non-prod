@@ -39,9 +39,9 @@ const features = [
   },
   {
     icon: TrendingUp,
-    title: 'India-First Pricing',
+    title: 'World Pricing',
     description:
-      'All prices shown in Indian Rupees (INR). We surface the most affordable plans and highlight free tiers so you spend only what you need to.',
+      'All prices shown in INR. We surface the most affordable plans and highlight free tiers so you spend only what you need to.',
     accent: 'text-orange-400',
     bg: 'bg-orange-900/20',
     border: 'border-orange-700/20',
