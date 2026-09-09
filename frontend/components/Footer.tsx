@@ -51,7 +51,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-5">
-              India&apos;s #1 marketplace for AI tools. Discover, compare and access 43 AI tools — ChatGPT, Claude, Midjourney and more — all in one place.
+              World&apos;s #1 marketplace for AI tools. Discover, compare and access 43 AI tools — ChatGPT, Claude, Midjourney and more — all in one place.
             </p>
 
             {/* Contact info */}
@@ -135,7 +135,7 @@ export default function Footer() {
             <Link href="/privacy" className="hover:text-slate-400">Privacy</Link>
             <Link href="/terms"   className="hover:text-slate-400">Terms</Link>
             <Link href="/cookies" className="hover:text-slate-400">Cookies</Link>
-            <span>Built with love in India</span>
+            <span>Built with love for the World</span>
           </div>
         </div>
       </div>

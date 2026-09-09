@@ -7,8 +7,8 @@ import Image from 'next/image'
 ───────────────────────────────────────────────────────────────────────────── */
 const KB: Record<string, string> = {
   // What is ApkaAI
-  'what is apkaai': 'ApkaAI is India\'s #1 AI tools marketplace. We help you discover, compare and access 43 premium AI tools — ChatGPT, Claude, Midjourney, Cursor and more — all in one place.',
-  'about apkaai': 'ApkaAI is built by Ashutosh Kumar Pandey. Our mission is to make AI tools accessible to every professional, creator and student in India by curating the best tools and showing accurate pricing in INR.',
+  'what is apkaai': 'ApkaAI is the World\'s #1 AI tools marketplace. We help you discover, compare and access 43 premium AI tools — ChatGPT, Claude, Midjourney, Cursor and more — all in one place.',
+  'about apkaai': 'ApkaAI is built by Ashutosh Kumar Pandey. Our mission is to make AI tools accessible to every professional, creator and student around the World by curating the best tools and showing accurate pricing in INR.',
   'what does apkaai do': 'ApkaAI lets you browse 43 hand-picked AI tools across 15 categories, compare them side-by-side on pricing and features, and get direct links to subscribe at the best price.',
 
   // How it works
@@ -24,10 +24,10 @@ const KB: Record<string, string> = {
   'free tools': 'Several tools offer free tiers: ChatGPT (free plan with GPT-4o mini), Claude (free plan), Gemini (free plan), GitHub Copilot (free for students), and more. Filter by "Free" on our tools page.',
 
   // Pricing
-  'pricing': 'All prices on ApkaAI are shown in Indian Rupees (INR). Tools range from free to ₹8,000+/month. We always show the most affordable plan first.',
+  'pricing': 'All prices on ApkaAI are shown in INR (₹). Tools range from free to ₹8,000+/month. We always show the most affordable plan first.',
   'how much': 'Pricing varies by tool. ChatGPT Plus is ₹1,650/mo, Claude Pro is ₹1,650/mo, Midjourney starts at ₹830/mo. Visit each tool\'s page for full pricing details.',
   'free': 'Yes! Browsing ApkaAI is completely free. Many AI tools also offer free tiers. No credit card needed to explore our directory.',
-  'inr': 'Yes, all prices are displayed in Indian Rupees (INR) for easy comparison without currency conversion.',
+  'inr': 'Yes, all prices are displayed in INR (₹) for easy comparison without currency conversion.',
   'plan': 'Each tool page shows all available plans side-by-side — Free, Freemium, and Paid — with feature breakdowns so you can pick the right tier.',
 
   // Comparison

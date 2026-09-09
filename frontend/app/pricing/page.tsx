@@ -25,7 +25,7 @@ export default function PricingPage() {
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 bg-purple-900/40 border border-purple-700/50 rounded-full px-4 py-2 text-sm text-purple-300 mb-6">
             <Zap className="w-4 h-4" fill="currentColor" />
-            All prices in Indian Rupees (₹)
+            All prices in INR (₹)
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4">
             AI Tools Pricing Guide
