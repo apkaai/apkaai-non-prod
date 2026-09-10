@@ -5,8 +5,8 @@ interface Star {
   x: number
   y: number
   size: number
-  speedX: number
-  speedY: number
+  speed: number          // right-to-left speed (always positive)
+  driftY: number         // tiny vertical wobble
   opacity: number
   opacityDir: number
   opacitySpeed: number
@@ -37,37 +37,47 @@ export default function StarryBackground() {
     }
 
     function initStars() {
-      // Density: ~1 star per 6000px²  (≈ 300 on a 1920×1080 screen)
-      const count = Math.floor((W * H) / 6000)
+      // ~1 star per 4500px² for a denser field
+      const count = Math.floor((W * H) / 4500)
       stars = []
       for (let i = 0; i < count; i++) {
-        stars.push(makeStar())
+        stars.push(makeStar(true))
       }
     }
 
-    function makeStar(): Star {
+    // randomStart=true on init so stars are distributed across the whole canvas
+    function makeStar(randomStart = false): Star {
       const tier = Math.random()
       let size: number
       let glow: number
-      if (tier > 0.97) {
-        size = 2.4 + Math.random() * 1.2   // large
-        glow = 6 + Math.random() * 4
-      } else if (tier > 0.85) {
-        size = 1.4 + Math.random() * 0.8   // medium
-        glow = 3 + Math.random() * 3
+      let speed: number
+
+      if (tier > 0.96) {
+        // large bright stars (4%)
+        size  = 2.8 + Math.random() * 1.6
+        glow  = 10 + Math.random() * 8
+        speed = 0.25 + Math.random() * 0.25
+      } else if (tier > 0.82) {
+        // medium stars (14%)
+        size  = 1.6 + Math.random() * 1.0
+        glow  = 5 + Math.random() * 5
+        speed = 0.15 + Math.random() * 0.20
       } else {
-        size = 0.5 + Math.random() * 0.8   // small
-        glow = 1 + Math.random() * 2
+        // small stars (82%)
+        size  = 0.6 + Math.random() * 0.9
+        glow  = 2 + Math.random() * 3
+        speed = 0.08 + Math.random() * 0.15
       }
+
       return {
-        x: Math.random() * W,
+        x: randomStart ? Math.random() * W : W + size + glow + 5,
         y: Math.random() * H,
         size,
-        speedX: (Math.random() - 0.5) * 0.12,
-        speedY: (Math.random() - 0.5) * 0.08,
-        opacity: 0.3 + Math.random() * 0.7,
+        speed,
+        driftY: (Math.random() - 0.5) * 0.04,   // gentle vertical float
+        opacity: 0.5 + Math.random() * 0.5,
         opacityDir: Math.random() > 0.5 ? 1 : -1,
-        opacitySpeed: 0.002 + Math.random() * 0.006,
+        opacitySpeed: 0.003 + Math.random() * 0.007,
         glow,
       }
     }
@@ -77,40 +87,56 @@ export default function StarryBackground() {
       ctx.clearRect(0, 0, W, H)
 
       for (const s of stars) {
-        // drift
-        s.x += s.speedX
-        s.y += s.speedY
-        // wrap around edges
-        if (s.x < -10) s.x = W + 10
-        if (s.x > W + 10) s.x = -10
-        if (s.y < -10) s.y = H + 10
-        if (s.y > H + 10) s.y = -10
-        // twinkle
-        s.opacity += s.opacityDir * s.opacitySpeed
-        if (s.opacity >= 1)   { s.opacity = 1;   s.opacityDir = -1 }
-        if (s.opacity <= 0.15) { s.opacity = 0.15; s.opacityDir =  1 }
+        // Move right → left
+        s.x -= s.speed
+        s.y += s.driftY
 
-        // glow halo
-        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size + s.glow)
-        grad.addColorStop(0,   `rgba(220,200,255,${s.opacity})`)
-        grad.addColorStop(0.4, `rgba(180,150,255,${s.opacity * 0.5})`)
-        grad.addColorStop(1,   `rgba(100,60,200,0)`)
+        // When a star exits the left edge, respawn it on the right
+        if (s.x < -(s.size + s.glow + 5)) {
+          const fresh = makeStar(false)
+          s.x           = fresh.x
+          s.y           = fresh.y
+          s.size        = fresh.size
+          s.speed       = fresh.speed
+          s.driftY      = fresh.driftY
+          s.glow        = fresh.glow
+          s.opacity     = fresh.opacity
+          s.opacityDir  = fresh.opacityDir
+          s.opacitySpeed = fresh.opacitySpeed
+        }
+
+        // Wrap vertical edges
+        if (s.y < -5) s.y = H + 5
+        if (s.y > H + 5) s.y = -5
+
+        // Twinkle
+        s.opacity += s.opacityDir * s.opacitySpeed
+        if (s.opacity >= 1)    { s.opacity = 1;    s.opacityDir = -1 }
+        if (s.opacity <= 0.35) { s.opacity = 0.35; s.opacityDir =  1 }
+
+        // ── Outer glow halo ──────────────────────────────────────────────
+        const r = s.size + s.glow
+        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r)
+        grad.addColorStop(0,   `rgba(255,245,255,${s.opacity})`)
+        grad.addColorStop(0.25,`rgba(210,160,255,${s.opacity * 0.85})`)
+        grad.addColorStop(0.55,`rgba(140,80,255,${s.opacity * 0.45})`)
+        grad.addColorStop(1,   `rgba(80,30,180,0)`)
+
         ctx.beginPath()
-        ctx.arc(s.x, s.y, s.size + s.glow, 0, Math.PI * 2)
+        ctx.arc(s.x, s.y, r, 0, Math.PI * 2)
         ctx.fillStyle = grad
         ctx.fill()
 
-        // bright core
+        // ── Bright white core ────────────────────────────────────────────
         ctx.beginPath()
-        ctx.arc(s.x, s.y, s.size * 0.5, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${s.opacity})`
+        ctx.arc(s.x, s.y, s.size * 0.55, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(255,255,255,${Math.min(s.opacity + 0.2, 1)})`
         ctx.fill()
       }
 
       animId = requestAnimationFrame(draw)
     }
 
-    // Listen for document height changes (navigation between pages changes scroll height)
     const resizeObserver = new ResizeObserver(resize)
     resizeObserver.observe(document.documentElement)
     window.addEventListener('resize', resize)
