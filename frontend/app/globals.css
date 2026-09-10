@@ -187,3 +187,19 @@ html.light-mode .glow-border {
 /* Scrollbar */
 html.light-mode ::-webkit-scrollbar-track { background: #e8eeff; }
 html.light-mode ::-webkit-scrollbar-thumb { background: #a78bfa; }
+
+/* ── Starry background layering ──────────────────────────────────────────── */
+/* All direct children of body (except the canvas) sit above the stars */
+body > *:not(canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dim section backgrounds so stars show through subtly */
+html:not(.light-mode) .grid-bg {
+  background-image:
+    linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-color: transparent !important;
+}
