@@ -41,16 +41,16 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-purple-900/30 backdrop-blur-xl bg-[#08051A]/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
-        {/* Logo — uses the PNG/SVG image file, no SVG code in component */}
-        <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+        {/* Logo — top-left, properly padded, matches reference image */}
+        <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
           <div className="group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
             <Image
               src="/apkaai-logo.png"
               alt="ApkaAI Logo"
-              width={36}
-              height={36}
+              width={40}
+              height={40}
               priority
-              className="rounded-lg"
+              className="rounded-xl"
             />
           </div>
           <span className="text-xl font-extrabold text-white tracking-tight">
