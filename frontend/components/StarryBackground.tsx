@@ -55,17 +55,17 @@ export default function StarryBackground() {
       if (tier > 0.96) {
         // large bright stars (4%)
         size  = 2.8 + Math.random() * 1.6
-        glow  = 10 + Math.random() * 8
+        glow  = 4 + Math.random() * 4
         speed = 0.25 + Math.random() * 0.25
       } else if (tier > 0.82) {
         // medium stars (14%)
         size  = 1.6 + Math.random() * 1.0
-        glow  = 5 + Math.random() * 5
+        glow  = 2 + Math.random() * 3
         speed = 0.15 + Math.random() * 0.20
       } else {
         // small stars (82%)
-        size  = 0.6 + Math.random() * 0.9
-        glow  = 2 + Math.random() * 3
+        size  = 0.7 + Math.random() * 0.9
+        glow  = 1 + Math.random() * 1.5
         speed = 0.08 + Math.random() * 0.15
       }
 
@@ -114,23 +114,23 @@ export default function StarryBackground() {
         if (s.opacity >= 1)    { s.opacity = 1;    s.opacityDir = -1 }
         if (s.opacity <= 0.35) { s.opacity = 0.35; s.opacityDir =  1 }
 
-        // ── Outer glow halo ──────────────────────────────────────────────
-        const r = s.size + s.glow
+        // ── Outer glow halo (tighter, rounder) ──────────────────────────
+        const r = s.size + s.glow * 0.5   // tighter halo radius
         const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r)
-        grad.addColorStop(0,   `rgba(255,245,255,${s.opacity})`)
-        grad.addColorStop(0.25,`rgba(210,160,255,${s.opacity * 0.85})`)
-        grad.addColorStop(0.55,`rgba(140,80,255,${s.opacity * 0.45})`)
-        grad.addColorStop(1,   `rgba(80,30,180,0)`)
+        grad.addColorStop(0,    `rgba(255,255,255,${s.opacity})`)
+        grad.addColorStop(0.35, `rgba(220,170,255,${s.opacity * 0.7})`)
+        grad.addColorStop(0.7,  `rgba(140,80,255,${s.opacity * 0.25})`)
+        grad.addColorStop(1,    `rgba(80,30,180,0)`)
 
         ctx.beginPath()
         ctx.arc(s.x, s.y, r, 0, Math.PI * 2)
         ctx.fillStyle = grad
         ctx.fill()
 
-        // ── Bright white core ────────────────────────────────────────────
+        // ── Crisp round core (larger, fully opaque) ──────────────────────
         ctx.beginPath()
-        ctx.arc(s.x, s.y, s.size * 0.55, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${Math.min(s.opacity + 0.2, 1)})`
+        ctx.arc(s.x, s.y, s.size * 0.85, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(255,255,255,${Math.min(s.opacity + 0.3, 1)})`
         ctx.fill()
       }
 
