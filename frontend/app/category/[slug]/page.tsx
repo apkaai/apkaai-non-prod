@@ -3,9 +3,21 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import ToolCard from '@/components/ToolCard'
 import { getCategoryBySlug, getToolsByCategory, categories } from '@/lib/tools-data'
+import type { Metadata } from 'next'
 
 interface Props {
   params: { slug: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const category = getCategoryBySlug(params.slug)
+  if (!category) return {}
+  const toolCount = getToolsByCategory(params.slug).length
+  return {
+    title: `${category.name} AI Tools — Top ${toolCount} Picks | ApkaAI`,
+    description: `Discover the best ${category.name.toLowerCase()} AI tools. Compare ${toolCount} hand-picked options on pricing, features, and ratings — only on ApkaAI.`,
+    alternates: { canonical: `https://apkaai.com/category/${params.slug}` },
+  }
 }
 
 export async function generateStaticParams() {
