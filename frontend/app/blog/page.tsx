@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'ApkaAI Blog — AI Tool Guides, Comparisons & Reviews',
-  description: 'In-depth guides, comparisons, and reviews of the best AI tools — written for Indian creators, developers, and businesses. ChatGPT vs Claude, best free AI tools, and more.',
+  description: 'In-depth guides, comparisons, and reviews of the best AI tools — written for creators, developers, and businesses worldwide. ChatGPT vs Claude, best free AI tools, and more.',
   alternates: { canonical: 'https://apkaai.com/blog' },
 }
 
@@ -140,7 +140,7 @@ export default function BlogPage() {
             ApkaAI Blog
           </h1>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            In-depth guides, comparisons, and reviews of the best AI tools — written for Indian creators, developers, and businesses.
+            In-depth guides, comparisons, and reviews of the best AI tools — written for creators, developers, and businesses worldwide.
           </p>
         </div>
 

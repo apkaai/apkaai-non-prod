@@ -51,7 +51,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-5">
-              India&apos;s #1 marketplace for AI tools. Discover, compare and access 43 AI tools — ChatGPT, Claude, Midjourney and more — all in one place.
+              World&apos;s #1 marketplace for AI tools. Discover, compare and access 43 AI tools — ChatGPT, Claude, Midjourney and more — all in one place.
             </p>
 
             {/* Contact info */}
@@ -92,7 +92,7 @@ export default function Footer() {
             </div>
 
             {/* LinkedIn badge */}
-            <a href="https://www.linkedin.com/in/apkaai-3784a1433/" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/company/apkaai/" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-900/20 border border-blue-700/40 hover:border-blue-500 text-blue-300 hover:text-white text-sm font-medium transition-all">
               <Linkedin className="w-4 h-4" />
               Follow on LinkedIn
@@ -128,7 +128,7 @@ export default function Footer() {
             <Link href="/privacy" className="hover:text-slate-400">Privacy</Link>
             <Link href="/terms"   className="hover:text-slate-400">Terms</Link>
             <Link href="/cookies" className="hover:text-slate-400">Cookies</Link>
-            <span>Built with love in India</span>
+            <span>Built with love for the World</span>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Menu, X, Search, BarChart3, User, LogOut, Settings, ChevronDown } from 'lucide-react'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const navLinks = [
   { label: 'All Tools',  href: '/tools' },
@@ -182,6 +183,7 @@ export default function Navbar() {
           <button className="lg:hidden p-2 text-slate-400 hover:text-white" onClick={() => setOpen(!open)} aria-label="Menu">
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
+          <ThemeToggle />
         </div>
       </div>
 

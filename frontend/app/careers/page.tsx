@@ -3,8 +3,8 @@ import { Mail, MapPin, Zap, ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Careers at ApkaAI — Join India\'s #1 AI Tools Marketplace',
-  description: 'Join the ApkaAI team and help build India\'s #1 AI tools marketplace. Remote-first, AI-native culture. We\'re hiring writers, developers, and more.',
+  title: 'Careers at ApkaAI — Join the World\'s #1 AI Tools Marketplace',
+  description: 'Join the ApkaAI team and help build the World\'s #1 AI tools marketplace. Remote-first, AI-native culture. We\'re hiring writers, developers, and more.',
   alternates: { canonical: 'https://apkaai.com/careers' },
 }
 
@@ -30,7 +30,7 @@ const openings = [
     type: 'Remote · Part-time',
     dept: 'Marketing',
     emoji: '📱',
-    desc: 'Grow our presence on LinkedIn, Twitter, Instagram, and YouTube. Create engaging content about AI tools for Indian audiences.',
+    desc: 'Grow our presence on LinkedIn, Twitter, Instagram, and YouTube. Create engaging content about AI tools for global audiences.',
     skills: ['Social media', 'Content creation', 'AI tools', 'Analytics'],
   },
   {
@@ -44,12 +44,12 @@ const openings = [
 ]
 
 const perks = [
-  { emoji: '🏠', title: 'Remote First', desc: 'Work from anywhere in India' },
+  { emoji: '🏠', title: 'Remote First', desc: 'Work from anywhere in the World' },
   { emoji: '🤖', title: 'AI-native Company', desc: 'We use the best AI tools ourselves' },
   { emoji: '📚', title: 'Learning Budget', desc: 'Access to AI tool subscriptions' },
   { emoji: '🚀', title: 'Early Stage Equity', desc: 'Grow with us from the ground up' },
   { emoji: '🎯', title: 'Real Impact', desc: 'Your work reaches 10K+ users' },
-  { emoji: '🇮🇳', title: 'India Focused', desc: 'Building for Indian users first' },
+  { emoji: '🌍', title: 'World Focused', desc: 'Building for users worldwide' },
 ]
 
 export default function CareersPage() {
@@ -67,8 +67,8 @@ export default function CareersPage() {
             Join the ApkaAI Team
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Help us build India&apos;s #1 AI tools marketplace. We are a small, passionate
-            team based in Greater Noida working remotely across India.
+            Help us build the World&apos;s #1 AI tools marketplace. We are a small, passionate
+            team based in Greater Noida working remotely worldwide.
           </p>
         </div>
 

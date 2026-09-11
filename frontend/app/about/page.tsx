@@ -3,8 +3,8 @@ import { Mail, Linkedin, MapPin, Zap, Users, Globe, Star, TrendingUp } from 'luc
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About ApkaAI — India\'s #1 AI Tools Marketplace',
-  description: 'Learn about ApkaAI — our mission to make the world\'s best AI tools discoverable, comparable, and accessible to every Indian professional, creator, and student.',
+  title: 'About ApkaAI — World\'s #1 AI Tools Marketplace',
+  description: 'Learn about ApkaAI — our mission to make the world\'s best AI tools discoverable, comparable, and accessible to every professional, creator, and student worldwide.',
   alternates: { canonical: 'https://apkaai.com/about' },
 }
 
@@ -19,7 +19,7 @@ const team = [
   {
     name: 'Ashutosh Kumar Pandey',
     role: 'Founder & CEO',
-    bio: 'AI enthusiast and entrepreneur passionate about making AI tools accessible to every Indian professional, creator, and student.',
+    bio: 'AI enthusiast and entrepreneur passionate about making AI tools accessible to every professional, creator, and student around the World.',
     linkedin: 'https://www.linkedin.com/in/apkaai-3784a1433/',
     email: 'ashutoshkumarpandey@apkaai.com',
     avatar: '👨‍💻',
@@ -35,15 +35,15 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-purple-900/40 border border-purple-700/50 rounded-full px-4 py-2 text-sm text-purple-300 mb-6">
             <Zap className="w-4 h-4" fill="currentColor" />
-            India&apos;s #1 AI Marketplace
+            World&apos;s #1 AI Marketplace
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-5">
             About ApkaAI
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
             ApkaAI was built with a simple mission — make the world&apos;s best AI tools
-            discoverable, comparable, and accessible to every Indian professional,
-            creator, student, and business.
+            discoverable, comparable, and accessible to every professional,
+            creator, student, and business worldwide.
           </p>
         </div>
 
@@ -62,8 +62,8 @@ export default function AboutPage() {
         <div className="glow-border rounded-2xl p-8 bg-[#0F0A1E] mb-10">
           <h2 className="text-2xl font-extrabold text-white mb-4">Our Mission</h2>
           <p className="text-slate-300 leading-relaxed mb-4">
-            The AI revolution is happening right now — and we believe every Indian
-            should have equal access to these transformative tools. Whether you&apos;re a
+            The AI revolution is happening right now — and we believe everyone
+            around the World should have equal access to these transformative tools. Whether you&apos;re a
             freelancer looking to automate your workflow, a student exploring AI for
             research, a marketer creating content at scale, or a developer building
             the next big thing — ApkaAI is your guide.
