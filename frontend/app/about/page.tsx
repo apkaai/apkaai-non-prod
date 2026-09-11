@@ -1,8 +1,15 @@
 import Link from 'next/link'
 import { Mail, Linkedin, MapPin, Zap, Users, Globe, Star, TrendingUp } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'About ApkaAI — India\'s #1 AI Tools Marketplace',
+  description: 'Learn about ApkaAI — our mission to make the world\'s best AI tools discoverable, comparable, and accessible to every Indian professional, creator, and student.',
+  alternates: { canonical: 'https://apkaai.com/about' },
+}
 
 const stats = [
-  { icon: Globe,      value: '43',   label: 'AI Tools Curated' },
+  { icon: Globe,      value: '70+',  label: 'AI Tools Curated' },
   { icon: Users,      value: '280+', label: 'Users Helped' },
   { icon: Star,       value: '4.7',  label: 'Average Rating' },
   { icon: TrendingUp, value: '15',   label: 'Categories' },
@@ -62,7 +69,7 @@ export default function AboutPage() {
             the next big thing — ApkaAI is your guide.
           </p>
           <p className="text-slate-300 leading-relaxed">
-            We curate, review, and compare 43 AI tools across 15 categories so you
+            We curate, review, and compare 70+ AI tools across 15 categories so you
             never have to spend hours searching. Every tool on our platform is
             hand-picked, verified, and kept up to date.
           </p>
@@ -71,7 +78,7 @@ export default function AboutPage() {
         {/* What we do */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
           {[
-            { emoji: '🔍', title: 'Discover', desc: 'Find the perfect AI tool for your exact use case from our curated directory of 43 tools.' },
+            { emoji: '🔍', title: 'Discover', desc: 'Find the perfect AI tool for your exact use case from our curated directory of 70+ tools.' },
             { emoji: '⚖️', title: 'Compare', desc: 'Compare tools side by side on pricing, features, ratings and real user reviews.' },
             { emoji: '🚀', title: 'Access', desc: 'Get direct links, exclusive deals, and free trial information for every AI tool.' },
           ].map(item => (
