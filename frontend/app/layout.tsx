@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import FloatingSocialWidget from '@/components/FloatingSocialWidget'
 import AIChatbot from '@/components/AIChatbot'
 import StarryBackground from '@/components/StarryBackground'
+import ComingSoonWatermark from '@/components/ComingSoonWatermark'
 
 export const metadata: Metadata = {
   title: 'ApkaAI — Discover & Buy the Best AI Tools',
@@ -38,6 +39,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-[#08051A] text-slate-100 antialiased relative">
         <StarryBackground />
+        <ComingSoonWatermark />
         <Navbar />
         <main>{children}</main>
         <Footer />

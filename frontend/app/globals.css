@@ -194,3 +194,12 @@ html.light-mode .glow-border {
 
 html.light-mode ::-webkit-scrollbar-track { background: #e8eeff; }
 html.light-mode ::-webkit-scrollbar-thumb { background: #a78bfa; }
+
+/* ── Coming Soon watermark — light/dark mode toggle ─────────────────────── */
+/* Dark mode: show dark variant, hide light variant */
+html:not(.light-mode) .html-light-hidden { display: block; }
+html:not(.light-mode) .html-light-show   { display: none  !important; }
+
+/* Light mode: hide dark variant, show light variant */
+html.light-mode .html-light-hidden { display: none  !important; }
+html.light-mode .html-light-show   { display: block !important; }
