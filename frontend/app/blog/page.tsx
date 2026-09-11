@@ -133,7 +133,7 @@ export default function BlogPage() {
             ApkaAI Blog
           </h1>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            In-depth guides, comparisons, and reviews of the best AI tools — written for creators, developers, and businesses worldwide.
+            In-depth guides, comparisons, and reviews of the best AI tools — written for Indian creators, developers, and businesses.
           </p>
         </div>
 
