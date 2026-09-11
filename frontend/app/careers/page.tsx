@@ -1,5 +1,12 @@
 import Link from 'next/link'
 import { Mail, MapPin, Zap, ArrowRight } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Careers at ApkaAI — Join India\'s #1 AI Tools Marketplace',
+  description: 'Join the ApkaAI team and help build India\'s #1 AI tools marketplace. Remote-first, AI-native culture. We\'re hiring writers, developers, and more.',
+  alternates: { canonical: 'https://apkaai.com/careers' },
+}
 
 const openings = [
   {
