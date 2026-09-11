@@ -1,5 +1,12 @@
 import Link from 'next/link'
 import { ArrowRight, Clock, User, Tag } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'ApkaAI Blog — AI Tool Guides, Comparisons & Reviews',
+  description: 'In-depth guides, comparisons, and reviews of the best AI tools — written for Indian creators, developers, and businesses. ChatGPT vs Claude, best free AI tools, and more.',
+  alternates: { canonical: 'https://apkaai.com/blog' },
+}
 
 const posts = [
   {
