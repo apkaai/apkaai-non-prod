@@ -3,18 +3,25 @@ import { ArrowRight, Sparkles, TrendingUp, Shield, Zap, Star, Users, Globe, BarC
 import ToolCard from '@/components/ToolCard'
 import CategoryCard from '@/components/CategoryCard'
 import { featuredTools, categories, tools } from '@/lib/tools-data'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'ApkaAI — Discover & Compare the Best AI Tools in India',
+  description: `India's #1 AI marketplace. Discover, compare and access ${tools.length}+ AI tools — ChatGPT, Claude, Midjourney, Cursor and more — all in one place.`,
+  alternates: { canonical: 'https://apkaai.com' },
+}
 
 const stats = [
-  { icon: Globe,      label: 'AI Tools',     value: '43' },
+  { icon: Globe,      label: 'AI Tools',     value: `${tools.length}+` },
   { icon: Users,      label: 'Happy Users',  value: '280+' },
   { icon: Star,       label: 'Avg Rating',   value: '4.7' },
-  { icon: TrendingUp, label: 'Categories',   value: '15' },
+  { icon: TrendingUp, label: 'Categories',   value: `${categories.length}` },
 ]
 
 const trustedBrands = ['ChatGPT', 'Claude', 'Gemini', 'Midjourney', 'Cursor', 'Runway', 'ElevenLabs', 'Suno']
 
 const whyChooseUs = [
-  { icon: Sparkles, title: 'Curated Collection',    desc: 'Every tool is hand-picked and verified. No spam — only the best 43 AI tools across 15 categories.' },
+  { icon: Sparkles, title: 'Curated Collection',    desc: `Every tool is hand-picked and verified. No spam — only the best ${tools.length}+ AI tools across 15 categories.` },
   { icon: Shield,   title: 'Trusted Information',   desc: 'Accurate pricing, honest ratings, and up-to-date details sourced directly from each tool.' },
   { icon: Zap,      title: 'Instant Access',        desc: 'Find and access any AI tool in seconds — no sign-ups or paywalls to browse our directory.' },
   { icon: BarChart3,title: 'Compare Side-by-Side',  desc: 'Use our comparison tool to pick the right AI for your needs based on pricing and features.' },
@@ -34,7 +41,7 @@ export default function HomePage() {
         <div className="relative max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-purple-900/40 border border-purple-700/50 rounded-full px-4 py-2 text-sm text-purple-300 mb-8">
             <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
-            43 AI Tools · 15 Categories · Updated Daily
+            {tools.length}+ AI Tools · {categories.length} Categories · Updated Daily
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
@@ -44,12 +51,12 @@ export default function HomePage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            India&apos;s #1 AI marketplace. Find, compare and access ChatGPT, Claude, Midjourney, Cursor and 43 AI tools — all in one place.
+            Discover {tools.length}+ AI tools across 15 categories. Find the perfect AI for your workflow.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/tools" className="btn-primary flex items-center gap-2 text-white font-bold px-8 py-4 rounded-xl text-base shadow-glow-sm">
-              Explore All 43 Tools <ArrowRight className="w-5 h-5" />
+              Explore All {tools.length}+ Tools <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="/compare" className="flex items-center gap-2 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-base border border-purple-800/40 hover:border-purple-500/60 transition-all bg-purple-950/20">
               <BarChart3 className="w-5 h-5" /> Compare AI Tools
@@ -95,7 +102,7 @@ export default function HomePage() {
               <p className="text-slate-400 mt-2">The most popular AI tools used by millions worldwide</p>
             </div>
             <Link href="/tools" className="hidden sm:flex items-center gap-1 text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors">
-              View all 43 <ArrowRight className="w-4 h-4" />
+              View all {tools.length}+ <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -105,7 +112,7 @@ export default function HomePage() {
           </div>
           <div className="text-center mt-10">
             <Link href="/tools" className="inline-flex items-center gap-2 btn-primary text-white font-semibold px-8 py-3 rounded-xl text-sm">
-              Explore All 43 AI Tools <ArrowRight className="w-4 h-4" />
+              Explore All {tools.length}+ AI Tools <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
