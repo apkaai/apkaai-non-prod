@@ -97,6 +97,13 @@ export default function Footer() {
               <Linkedin className="w-4 h-4" />
               Follow on LinkedIn
             </a>
+
+            {/* Twitter / X badge */}
+            <a href="https://x.com/apkaAI2026" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-900/20 border border-sky-700/40 hover:border-sky-500 text-sky-300 hover:text-white text-sm font-medium transition-all mt-3">
+              <Twitter className="w-4 h-4" />
+              Follow on Twitter / X
+            </a>
           </div>
 
           {/* Link columns */}
