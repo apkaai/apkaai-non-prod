@@ -1,23 +1,48 @@
 /**
- * ComingSoonWatermark
- * ─────────────────────────────────────────────────────────────────────────────
- * A fixed, full-viewport repeating diagonal watermark rendered on every page.
+ * ComingSoonWatermark — animated right-to-left diagonal watermark
  *
- * Design decisions:
- *  • position: fixed  — covers the viewport regardless of scroll
- *  • z-index: 10      — above page background / stars (z:0–1) but below
- *                       navbar (z:50), modals, and all interactive UI (z:9999+)
- *  • pointer-events: none  — clicks pass straight through
- *  • SVG pattern tile  — crisp at all resolutions, zero layout impact
- *  • Works in both dark and light mode via separate fill colours
+ * Architecture:
+ *  • 5 rows, each offset vertically and horizontally so the diagonal tiles
+ *    cover the entire viewport at all times.
+ *  • Each row contains TWO identical strips of repeated text placed end-to-end.
+ *    Strip-A animates from x=0 → x=-100%.  The moment it exits left, Strip-B
+ *    (already starting at x=+100%) takes over — giving a perfectly seamless loop.
+ *  • overflow:hidden on the container stops any horizontal scrollbar.
+ *  • pointer-events:none + z-index:10 keeps it behind interactive UI.
+ *  • Works in dark mode and light mode via separate opacity values.
  */
+
+/* How many "COMING SOON •" copies per strip — enough to fill any screen width */
+const COPIES = 6
+const PHRASE = 'COMING SOON  •  '
+
+const ROWS = [
+  { top: '5%',  offsetX: '0%',    dur: '22s', delay: '0s'    },
+  { top: '23%', offsetX: '-8%',   dur: '28s', delay: '-6s'   },
+  { top: '41%', offsetX: '-4%',   dur: '20s', delay: '-10s'  },
+  { top: '59%', offsetX: '-12%',  dur: '25s', delay: '-3s'   },
+  { top: '77%', offsetX: '-6%',   dur: '30s', delay: '-15s'  },
+]
+
+const STRIP = Array.from({ length: COPIES }, () => PHRASE).join('')
+
+const baseStyle: React.CSSProperties = {
+  display: 'inline-block',
+  whiteSpace: 'nowrap',
+  fontSize: '2.2rem',
+  fontWeight: 800,
+  letterSpacing: '0.18em',
+  fontFamily: 'Inter, system-ui, sans-serif',
+  userSelect: 'none',
+  willChange: 'transform',
+}
+
 export default function ComingSoonWatermark() {
   return (
     <>
-      {/* ── Dark-mode watermark (default) ────────────────────────────────── */}
+      {/* ── Container ── */}
       <div
         aria-hidden="true"
-        className="html-light-hidden"
         style={{
           position: 'fixed',
           inset: 0,
@@ -26,86 +51,77 @@ export default function ComingSoonWatermark() {
           overflow: 'hidden',
         }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="100%"
-          height="100%"
-          style={{ position: 'absolute', inset: 0 }}
-        >
-          <defs>
-            <pattern
-              id="wm-dark"
-              x="0"
-              y="0"
-              width="420"
-              height="200"
-              patternUnits="userSpaceOnUse"
-              patternTransform="rotate(-35)"
+        {ROWS.map((row, i) => (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              top: row.top,
+              left: 0,
+              right: 0,
+              /* Rotate the whole row so the text is diagonal */
+              transform: `translateX(${row.offsetX}) rotate(-25deg)`,
+              transformOrigin: 'center center',
+              display: 'flex',
+              overflow: 'visible',
+            }}
+          >
+            {/* Strip A — starts at x:0, moves to x:-100% */}
+            <span
+              className="wm-strip"
+              style={{
+                ...baseStyle,
+                animationDuration: row.dur,
+                animationDelay: row.delay,
+              }}
             >
-              <text
-                x="10"
-                y="120"
-                fontSize="38"
-                fontFamily="Inter, system-ui, sans-serif"
-                fontWeight="700"
-                letterSpacing="8"
-                fill="rgba(168,85,247,0.07)"
-                style={{ userSelect: 'none' }}
-              >
-                COMING SOON
-              </text>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#wm-dark)" />
-        </svg>
+              {STRIP}
+            </span>
+            {/* Strip B — starts at x:+100%, moves to x:0  (seamless follow-up) */}
+            <span
+              className="wm-strip"
+              style={{
+                ...baseStyle,
+                animationDuration: row.dur,
+                animationDelay: row.delay,
+                position: 'absolute',
+                left: '100%',
+              }}
+            >
+              {STRIP}
+            </span>
+          </div>
+        ))}
       </div>
 
-      {/* ── Light-mode watermark ──────────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="html-light-show"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 10,
-          pointerEvents: 'none',
-          overflow: 'hidden',
-          display: 'none',          /* toggled by CSS below */
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="100%"
-          height="100%"
-          style={{ position: 'absolute', inset: 0 }}
-        >
-          <defs>
-            <pattern
-              id="wm-light"
-              x="0"
-              y="0"
-              width="420"
-              height="200"
-              patternUnits="userSpaceOnUse"
-              patternTransform="rotate(-35)"
-            >
-              <text
-                x="10"
-                y="120"
-                fontSize="38"
-                fontFamily="Inter, system-ui, sans-serif"
-                fontWeight="700"
-                letterSpacing="8"
-                fill="rgba(109,40,217,0.06)"
-                style={{ userSelect: 'none' }}
-              >
-                COMING SOON
-              </text>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#wm-light)" />
-        </svg>
-      </div>
+      {/* ── Keyframes + colour variants ── */}
+      <style>{`
+        /* Right → Left marquee: each strip travels exactly one full width */
+        @keyframes wmScroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-100%); }
+        }
+
+        .wm-strip {
+          animation-name: wmScroll;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          animation-fill-mode: none;
+        }
+
+        /* Dark mode colour */
+        html:not(.light-mode) .wm-strip {
+          color: rgba(168, 85, 247, 0.07);
+        }
+
+        /* Light mode colour */
+        html.light-mode .wm-strip {
+          color: rgba(109, 40, 217, 0.05);
+        }
+
+        /* Prevent horizontal scroll on the page body caused by the strips */
+        body { overflow-x: hidden; }
+      `}</style>
     </>
   )
 }

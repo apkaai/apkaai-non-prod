@@ -6,6 +6,7 @@ import FloatingSocialWidget from '@/components/FloatingSocialWidget'
 import AIChatbot from '@/components/AIChatbot'
 import StarryBackground from '@/components/StarryBackground'
 import ComingSoonWatermark from '@/components/ComingSoonWatermark'
+import GaneshaFloat from '@/components/GaneshaFloat'
 
 export const metadata: Metadata = {
   title: 'ApkaAI — Discover & Buy the Best AI Tools',
@@ -48,6 +49,7 @@ export default function RootLayout({
           <AIChatbot />
           <FloatingSocialWidget />
         </div>
+        <GaneshaFloat />
       </body>
     </html>
   )
