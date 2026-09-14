@@ -94,23 +94,70 @@ export default function HeroSection() {
           </Link>
         </div>
 
-        {/* Trusted brands scroll strip */}
+        {/* Trusted brands — right-to-left marquee */}
         <div>
           <p className="text-slate-500 text-xs uppercase tracking-widest mb-5 font-medium">
             Featuring tools from
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {BRAND_PILLS.map(({ name, emoji }) => (
-              <span
-                key={name}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#150D2E] border border-purple-900/40 rounded-xl text-slate-300 text-sm font-medium hover:border-purple-600/60 hover:text-white hover:bg-purple-900/20 transition-all cursor-default"
-              >
-                <span className="text-base">{emoji}</span>
-                {name}
-              </span>
-            ))}
+
+          {/* Marquee container — overflow hidden, no page scroll */}
+          <div
+            style={{
+              overflow: 'hidden',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+            }}
+          >
+            {/* Inner wrapper: two identical strips side-by-side = seamless loop */}
+            <div
+              className="brand-marquee"
+              style={{ display: 'flex', width: 'max-content' }}
+            >
+              {/* Strip A */}
+              <div className="flex items-center gap-3 brand-strip">
+                {BRAND_PILLS.map(({ name, emoji }) => (
+                  <span
+                    key={`a-${name}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#150D2E] border border-purple-900/40 rounded-xl text-slate-300 text-sm font-medium hover:border-purple-600/60 hover:text-white hover:bg-purple-900/20 transition-all cursor-default flex-shrink-0"
+                  >
+                    <span className="text-base">{emoji}</span>
+                    {name}
+                  </span>
+                ))}
+                {/* Spacer so strips don't bunch together */}
+                <span className="inline-block w-8 flex-shrink-0" />
+              </div>
+
+              {/* Strip B — identical, follows A seamlessly */}
+              <div className="flex items-center gap-3 brand-strip" aria-hidden="true">
+                {BRAND_PILLS.map(({ name, emoji }) => (
+                  <span
+                    key={`b-${name}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#150D2E] border border-purple-900/40 rounded-xl text-slate-300 text-sm font-medium hover:border-purple-600/60 hover:text-white hover:bg-purple-900/20 transition-all cursor-default flex-shrink-0"
+                  >
+                    <span className="text-base">{emoji}</span>
+                    {name}
+                  </span>
+                ))}
+                <span className="inline-block w-8 flex-shrink-0" />
+              </div>
+            </div>
           </div>
         </div>
+
+        <style>{`
+          @keyframes brandScroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+          }
+          .brand-marquee {
+            animation: brandScroll 18s linear infinite;
+            will-change: transform;
+          }
+          .brand-marquee:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
 
         {/* Social proof strip */}
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 text-sm">
