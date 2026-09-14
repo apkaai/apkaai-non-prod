@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Twitter, Linkedin, Github, Mail, MapPin, BarChart3 } from 'lucide-react'
+import HoverPreview from '@/components/HoverPreview'
 
 const MAPS_URL = 'https://maps.google.com/?q=Ace+City,+Greater+Noida,+Uttar+Pradesh,+India'
 const EMAIL    = 'ashutoshkumarpandey@apkaai.com'
@@ -34,6 +35,24 @@ const socialLinks = [
   { icon: Github,   href: 'https://github.com/AshutoshPanday/apkaai',      label: 'GitHub',   color: 'hover:border-slate-400 hover:text-white' },
   { icon: Mail,     href: `mailto:${EMAIL}`,                               label: 'Email',    color: 'hover:border-purple-500 hover:text-purple-400' },
 ]
+
+// Preview labels for footer nav links (social links are intentionally excluded)
+const LINK_PREVIEWS: Record<string, string> = {
+  '/tools':                    'Browse all 43 AI tools',
+  '/category/ai-chat':         'ChatGPT, Claude, Gemini & more',
+  '/category/image-generation':'Midjourney, DALL·E, Stable Diffusion',
+  '/category/coding':          'Cursor, GitHub Copilot & dev tools',
+  '/category/video-generation':'Runway, Sora & video AI tools',
+  '/category/writing':         'Jasper, Copy.ai & writing tools',
+  '/about':                    'Learn about the ApkaAI team',
+  '/blog':                     'Read AI tips, guides & news',
+  '/careers':                  'Join the ApkaAI team',
+  '/contact':                  'Send us a message',
+  '/help':                     'FAQs and support articles',
+  '/privacy':                  'Read our privacy policy',
+  '/terms':                    'Read our terms of service',
+  '/cookies':                  'Our cookie policy',
+}
 
 export default function Footer() {
   return (
@@ -94,7 +113,7 @@ export default function Footer() {
             {/* LinkedIn badge */}
             <a href="https://www.linkedin.com/company/apkaai/" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-900/20 border border-blue-700/40 hover:border-blue-500 text-blue-300 hover:text-white text-sm font-medium transition-all">
-              <Linkedin className="w-4 h-4" />
+  -              <Linkedin className="w-4 h-4" />
               Follow on LinkedIn
             </a>
 
@@ -116,9 +135,11 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {links.map(link => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-slate-400 hover:text-purple-400 text-sm transition-colors">
-                      {link.label}
-                    </Link>
+                    <HoverPreview label={LINK_PREVIEWS[link.href] ?? link.label}>
+                      <Link href={link.href} className="text-slate-400 hover:text-purple-400 text-sm transition-colors">
+                        {link.label}
+                      </Link>
+                    </HoverPreview>
                   </li>
                 ))}
               </ul>
@@ -132,9 +153,9 @@ export default function Footer() {
             © {new Date().getFullYear()} ApkaAI by Ashutosh Kumar Pandey. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-slate-600 text-xs">
-            <Link href="/privacy" className="hover:text-slate-400">Privacy</Link>
-            <Link href="/terms"   className="hover:text-slate-400">Terms</Link>
-            <Link href="/cookies" className="hover:text-slate-400">Cookies</Link>
+            <HoverPreview label="Read our privacy policy"><Link href="/privacy" className="hover:text-slate-400">Privacy</Link></HoverPreview>
+            <HoverPreview label="Read our terms of service"><Link href="/terms"   className="hover:text-slate-400">Terms</Link></HoverPreview>
+            <HoverPreview label="Our cookie policy"><Link href="/cookies" className="hover:text-slate-400">Cookies</Link></HoverPreview>
             <span>Built with love for the World</span>
           </div>
         </div>

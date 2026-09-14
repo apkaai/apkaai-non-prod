@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Sparkles, User } from 'lucide-react'
+import HoverPreview from '@/components/HoverPreview'
 
 const bullets = [
   'Free to browse — no account needed',
@@ -60,18 +61,22 @@ export default function FinalCTASection() {
 
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link
-                href="/tools"
-                className="btn-primary flex items-center gap-2.5 text-white font-bold px-10 py-4 rounded-xl text-base shadow-glow-md w-full sm:w-auto justify-center"
-              >
-                <Sparkles className="w-5 h-5" /> Browse All 43 Tools <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="/signup"
-                className="flex items-center gap-2.5 border border-purple-700/50 hover:border-purple-500 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-base transition-all bg-purple-950/20 w-full sm:w-auto justify-center"
-              >
-                <User className="w-5 h-5 text-purple-400" /> Create Free Account
-              </Link>
+              <HoverPreview label="Browse all 43 verified AI tools" icon={<Sparkles className="w-3.5 h-3.5" />}>
+                <Link
+                  href="/tools"
+                  className="btn-primary flex items-center gap-2.5 text-white font-bold px-10 py-4 rounded-xl text-base shadow-glow-md w-full sm:w-auto justify-center"
+                >
+                  <Sparkles className="w-5 h-5" /> Browse All 43 Tools <ArrowRight className="w-5 h-5" />
+                </Link>
+              </HoverPreview>
+              <HoverPreview label="Free account — no credit card needed" icon={<User className="w-3.5 h-3.5" />}>
+                <Link
+                  href="/signup"
+                  className="flex items-center gap-2.5 border border-purple-700/50 hover:border-purple-500 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-base transition-all bg-purple-950/20 w-full sm:w-auto justify-center"
+                >
+                  <User className="w-5 h-5 text-purple-400" /> Create Free Account
+                </Link>
+              </HoverPreview>
             </div>
 
             {/* Micro-copy */}

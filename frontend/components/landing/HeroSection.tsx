@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { ArrowRight, Sparkles, BarChart3 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import HoverPreview from '@/components/HoverPreview'
 
 const ROTATING_WORDS = ['Creators', 'Developers', 'Marketers', 'Students', 'Founders']
 
@@ -74,24 +75,30 @@ export default function HeroSection() {
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-14">
-          <Link
-            href="/tools"
-            className="btn-primary flex items-center gap-2.5 text-white font-bold px-9 py-4 rounded-xl text-base shadow-glow-md w-full sm:w-auto justify-center"
-          >
-            Explore All 43 Tools <ArrowRight className="w-5 h-5" />
-          </Link>
-          <Link
-            href="/compare"
-            className="flex items-center gap-2.5 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-base border border-purple-800/50 hover:border-purple-500/70 transition-all bg-purple-950/20 backdrop-blur-sm w-full sm:w-auto justify-center"
-          >
-            <BarChart3 className="w-5 h-5 text-purple-400" /> Compare Tools
-          </Link>
-          <Link
-            href="/pricing"
-            className="flex items-center gap-2 text-purple-400 hover:text-purple-300 font-medium text-sm px-4 py-4 transition-colors w-full sm:w-auto justify-center"
-          >
-            <ArrowRight className="w-4 h-4" /> View Pricing
-          </Link>
+          <HoverPreview label="Browse all 43 AI tools across 15 categories" icon={<Sparkles className="w-3.5 h-3.5" />}>
+            <Link
+              href="/tools"
+              className="btn-primary flex items-center gap-2.5 text-white font-bold px-9 py-4 rounded-xl text-base shadow-glow-md w-full sm:w-auto justify-center"
+            >
+              Explore All 43 Tools <ArrowRight className="w-5 h-5" />
+            </Link>
+          </HoverPreview>
+          <HoverPreview label="Compare up to 4 AI tools side by side" icon={<BarChart3 className="w-3.5 h-3.5" />}>
+            <Link
+              href="/compare"
+              className="flex items-center gap-2.5 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-base border border-purple-800/50 hover:border-purple-500/70 transition-all bg-purple-950/20 backdrop-blur-sm w-full sm:w-auto justify-center"
+            >
+              <BarChart3 className="w-5 h-5 text-purple-400" /> Compare Tools
+            </Link>
+          </HoverPreview>
+          <HoverPreview label="See all plans and pricing in INR" icon={<ArrowRight className="w-3.5 h-3.5" />}>
+            <Link
+              href="/pricing"
+              className="flex items-center gap-2 text-purple-400 hover:text-purple-300 font-medium text-sm px-4 py-4 transition-colors w-full sm:w-auto justify-center"
+            >
+              <ArrowRight className="w-4 h-4" /> View Pricing
+            </Link>
+          </HoverPreview>
         </div>
 
         {/* Trusted brands — right-to-left marquee */}

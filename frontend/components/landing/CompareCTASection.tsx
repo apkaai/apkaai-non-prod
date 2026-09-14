@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { BarChart3, ArrowRight, CheckCircle } from 'lucide-react'
+import HoverPreview from '@/components/HoverPreview'
 
 const comparePerks = [
   'Compare up to 4 tools at once',
@@ -42,12 +43,14 @@ export default function CompareCTASection() {
                 ))}
               </ul>
 
-              <Link
-                href="/compare"
-                className="btn-primary inline-flex items-center gap-2.5 text-white font-bold px-8 py-4 rounded-xl text-base shadow-glow-sm"
-              >
-                <BarChart3 className="w-5 h-5" /> Open Comparison Tool <ArrowRight className="w-4 h-4" />
-              </Link>
+              <HoverPreview label="Compare up to 4 AI tools side by side" icon={<BarChart3 className="w-3.5 h-3.5" />}>
+                <Link
+                  href="/compare"
+                  className="btn-primary inline-flex items-center gap-2.5 text-white font-bold px-8 py-4 rounded-xl text-base shadow-glow-sm"
+                >
+                  <BarChart3 className="w-5 h-5" /> Open Comparison Tool <ArrowRight className="w-4 h-4" />
+                </Link>
+              </HoverPreview>
             </div>
 
             {/* Right: Visual preview card */}

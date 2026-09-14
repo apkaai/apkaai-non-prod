@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Menu, X, Search, BarChart3, User, LogOut, Settings, ChevronDown } from 'lucide-react'
 import ThemeToggle from '@/components/ThemeToggle'
+import HoverPreview from '@/components/HoverPreview'
 
 const navLinks = [
   { label: 'All Tools',  href: '/tools' },
@@ -96,23 +97,38 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map(link => (
-            <Link key={link.href} href={link.href}
-              className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-all ${
-                link.label === 'Compare' ? 'text-purple-300 hover:text-white hover:bg-purple-900/30' : 'text-slate-400 hover:text-white hover:bg-purple-900/20'
-              }`}>
-              {link.label === 'Compare' && <BarChart3 className="w-3.5 h-3.5" />}
-              {link.label}
-            </Link>
+            <HoverPreview
+              key={link.href}
+              label={
+                link.label === 'All Tools'  ? 'View all 43 AI tools' :
+                link.label === 'Categories' ? 'Browse tools by category' :
+                link.label === 'Compare'    ? 'Compare AI tools side by side' :
+                link.label === 'Pricing'    ? 'See pricing plans in INR' :
+                link.label === 'Blog'       ? 'Read AI tips and guides' :
+                link.label === 'Contact'    ? 'Get in touch with us' :
+                link.label
+              }
+            >
+              <Link key={link.href} href={link.href}
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-all ${
+                  link.label === 'Compare' ? 'text-purple-300 hover:text-white hover:bg-purple-900/30' : 'text-slate-400 hover:text-white hover:bg-purple-900/20'
+                }`}>
+                {link.label === 'Compare' && <BarChart3 className="w-3.5 h-3.5" />}
+                {link.label}
+              </Link>
+            </HoverPreview>
           ))}
         </nav>
 
         {/* Right Actions */}
         <div className="flex items-center gap-2">
           {/* Search */}
-          <button onClick={() => setSearchOpen(p => !p)} aria-label="Search"
-            className={`p-2 rounded-lg transition-all ${searchOpen ? 'text-white bg-purple-700/40' : 'text-slate-400 hover:text-white hover:bg-purple-900/30'}`}>
-            {searchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
-          </button>
+          <HoverPreview label="Search across all 43 AI tools" icon={<Search className="w-3.5 h-3.5" />}>
+            <button onClick={() => setSearchOpen(p => !p)} aria-label="Search"
+              className={`p-2 rounded-lg transition-all ${searchOpen ? 'text-white bg-purple-700/40' : 'text-slate-400 hover:text-white hover:bg-purple-900/30'}`}>
+              {searchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+            </button>
+          </HoverPreview>
 
           {/* ── Signed IN — show user avatar + dropdown ── */}
           {user ? (
@@ -171,12 +187,16 @@ export default function Navbar() {
           ) : (
             /* ── NOT signed in — show Sign In / Sign Up ── */
             <>
-              <Link href="/signin" className="hidden sm:inline-flex items-center text-slate-300 hover:text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-purple-900/20 transition-all">
-                Sign In
-              </Link>
-              <Link href="/signup" className="hidden sm:inline-flex btn-primary text-white text-sm font-semibold px-4 py-2 rounded-lg">
-                Sign Up
-              </Link>
+              <HoverPreview label="Sign in to your ApkaAI account" icon={<User className="w-3.5 h-3.5" />}>
+                <Link href="/signin" className="hidden sm:inline-flex items-center text-slate-300 hover:text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-purple-900/20 transition-all">
+                  Sign In
+                </Link>
+              </HoverPreview>
+              <HoverPreview label="Create a free account in 30 seconds" icon={<User className="w-3.5 h-3.5" />}>
+                <Link href="/signup" className="hidden sm:inline-flex btn-primary text-white text-sm font-semibold px-4 py-2 rounded-lg">
+                  Sign Up
+                </Link>
+              </HoverPreview>
             </>
           )}
 
