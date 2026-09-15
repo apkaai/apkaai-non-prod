@@ -100,13 +100,14 @@ export default function HoverPreview({ label, icon, children }: HoverPreviewProp
 
   // Clone the single child to attach our mouse events
   // We do NOT wrap in any extra element — the child IS the anchor
-  const child = React.Children.only(children) as React.ReactElement<React.HTMLAttributes<HTMLElement>>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const child = React.Children.only(children) as React.ReactElement<any>
   const augmented = React.cloneElement(child, {
-    onMouseEnter: (e: React.MouseEvent) => {
+    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
       handleEnter(e)
       child.props.onMouseEnter?.(e)
     },
-    onMouseLeave: (e: React.MouseEvent) => {
+    onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
       handleLeave()
       child.props.onMouseLeave?.(e)
     },
