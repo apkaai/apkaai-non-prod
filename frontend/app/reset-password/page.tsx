@@ -106,8 +106,8 @@ function ResetPasswordForm() {
       }
 
       setSubmitState('success')
-      // Redirect to sign-in after 3 seconds
-      setTimeout(() => router.push('/signin?reset=1'), 3000)
+      // Redirect to sign-in after 1.5 seconds
+      setTimeout(() => router.push('/signin?reset=1'), 1500)
     } catch {
       setSubmitError('Network error. Please check your connection and try again.')
       setSubmitState('error')
