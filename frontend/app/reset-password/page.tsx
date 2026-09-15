@@ -32,7 +32,6 @@ function ResetPasswordForm() {
   type SubmitState = 'idle' | 'loading' | 'success' | 'error'
 
   const [tokenState,   setTokenState]   = useState<TokenState>('checking')
-  const [tokenEmail,   setTokenEmail]   = useState('')
   const [tokenError,   setTokenError]   = useState('')
 
   const [password,     setPassword]     = useState('')
@@ -57,7 +56,6 @@ function ResetPasswordForm() {
       const res  = await fetch(`${API}/api/auth/verify-reset-token?token=${encodeURIComponent(token)}`)
       const data = await res.json()
       if (data.valid) {
-        setTokenEmail(data.email ?? '')
         setTokenState('valid')
       } else {
         setTokenState('invalid')
@@ -170,13 +168,6 @@ function ResetPasswordForm() {
   // ── Render: reset form ─────────────────────────────────────────────────────
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-
-      {/* Account indicator */}
-      {tokenEmail && (
-        <div className="bg-purple-900/20 border border-purple-800/40 rounded-xl px-4 py-2.5 text-sm text-slate-300 text-center">
-          Resetting password for <span className="text-white font-medium">{tokenEmail}</span>
-        </div>
-      )}
 
       {/* Network / server error banner */}
       {submitState === 'error' && (

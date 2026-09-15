@@ -15,12 +15,20 @@ build/
 .env
 .env.local
 .env.production
+.env.*
 backend/.env
+frontend/.env
+frontend/.env.local
 
 # AWS / secrets
 deploy/s3-cloudfront-config.txt
 *.pem
 *.key
+
+# Local deploy temp files (C:\Temp artifacts etc.)
+*.b64
+*.bat
+.local_backup/
 
 # Logs
 *.log

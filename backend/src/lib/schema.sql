@@ -60,16 +60,19 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 -- ── users ──────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
-  user_id    UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
-  email      VARCHAR(200) UNIQUE NOT NULL,
-  name       VARCHAR(200) NOT NULL,
-  password   VARCHAR(500) NOT NULL,
-  role       VARCHAR(50)  DEFAULT 'user',
-  created_at TIMESTAMPTZ  DEFAULT NOW(),
-  updated_at TIMESTAMPTZ  DEFAULT NOW()
+  user_id               UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  email                 VARCHAR(200) UNIQUE NOT NULL,
+  name                  VARCHAR(200) NOT NULL,
+  password              VARCHAR(500) NOT NULL,
+  role                  VARCHAR(50)  DEFAULT 'user',
+  reset_token           VARCHAR(64),           -- SHA-256 hex hash of the raw reset token
+  reset_token_expires   TIMESTAMPTZ,           -- 30-minute expiry timestamp
+  created_at            TIMESTAMPTZ  DEFAULT NOW(),
+  updated_at            TIMESTAMPTZ  DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_email       ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_reset_token ON users(reset_token);
 
 -- ── trigger: update updated_at automatically ─────────────────────────────────
 CREATE OR REPLACE FUNCTION update_updated_at()
