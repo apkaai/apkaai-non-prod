@@ -187,14 +187,18 @@ export default function Navbar() {
           ) : (
             /* ── NOT signed in — show Sign In / Sign Up ── */
             <>
-              <HoverPreview label="Sign in to your ApkaAI account" icon={<User className="w-3.5 h-3.5" />}>
-                <Link href="/signin" className="hidden sm:inline-flex items-center text-slate-300 hover:text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-purple-900/20 transition-all">
-                  Sign In
+              <HoverPreview label="Login to your ApkaAI account" icon={<User className="w-3.5 h-3.5" />}>
+                <Link href="/signin"
+                  className="hidden sm:inline-flex items-center gap-1.5 text-slate-300 hover:text-white text-sm font-medium px-3 py-2 rounded-lg border border-purple-700/40 hover:border-purple-500 hover:bg-purple-900/20 transition-all">
+                  <User className="w-3.5 h-3.5" />
+                  Login as User
                 </Link>
               </HoverPreview>
-              <HoverPreview label="Create a free account in 30 seconds" icon={<User className="w-3.5 h-3.5" />}>
-                <Link href="/signup" className="hidden sm:inline-flex btn-primary text-white text-sm font-semibold px-4 py-2 rounded-lg">
-                  Sign Up
+              <HoverPreview label="Login to the Admin Panel" icon={<Settings className="w-3.5 h-3.5" />}>
+                <Link href="/admin/login"
+                  className="hidden sm:inline-flex items-center gap-1.5 btn-primary text-white text-sm font-semibold px-4 py-2 rounded-lg">
+                  <Settings className="w-3.5 h-3.5" />
+                  Login as Admin
                 </Link>
               </HoverPreview>
             </>
@@ -260,12 +264,14 @@ export default function Navbar() {
             ) : (
               <>
                 <Link href="/signin" onClick={() => setOpen(false)}
-                  className="text-center border border-purple-700/40 text-slate-300 text-sm font-semibold px-4 py-2.5 rounded-lg">
-                  Sign In
+                  className="flex items-center justify-center gap-1.5 border border-purple-700/40 text-slate-300 text-sm font-semibold px-4 py-2.5 rounded-lg hover:border-purple-500 transition-all">
+                  <User className="w-3.5 h-3.5" />
+                  Login as User
                 </Link>
-                <Link href="/signup" onClick={() => setOpen(false)}
-                  className="btn-primary text-center text-white text-sm font-semibold px-4 py-2.5 rounded-lg">
-                  Sign Up
+                <Link href="/admin/login" onClick={() => setOpen(false)}
+                  className="btn-primary flex items-center justify-center gap-1.5 text-white text-sm font-semibold px-4 py-2.5 rounded-lg">
+                  <Settings className="w-3.5 h-3.5" />
+                  Login as Admin
                 </Link>
               </>
             )}
