@@ -37,6 +37,7 @@ interface AnalyticsOverview {
   }
 }
 interface S3Summary { folder: string; fileCount: number; totalSize: string; latestFile: string | null }
+interface S3SummaryResponse { bucket: string; summary: S3Summary[]; configured: boolean; error?: string; message?: string }
 
 function getToken() {
   if (typeof window === 'undefined') return ''
@@ -204,7 +205,7 @@ export default function DataLakePage() {
   const [driveResult, setDriveResult]   = useState<{success:boolean;message?:string;error?:string} | null>(null)
 
   // S3
-  const [s3Summary, setS3Summary]     = useState<{bucket:string;summary:S3Summary[];configured:boolean} | null>(null)
+  const [s3Summary, setS3Summary]     = useState<S3SummaryResponse | null>(null)
   const [s3Files, setS3Files]         = useState<{key:string;size:number;lastModified:string;sizeHuman:string}[]>([])
   const [s3Prefix, setS3Prefix]       = useState('')
   const [s3Loading, setS3Loading]     = useState(false)
