@@ -90,3 +90,24 @@ CREATE OR REPLACE TRIGGER tools_updated_at
 CREATE OR REPLACE TRIGGER users_updated_at
   BEFORE UPDATE ON users
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ── cloud_estimates ────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS cloud_estimates (
+  id            VARCHAR(50)  PRIMARY KEY,
+  user_id       UUID         NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+  provider      VARCHAR(20)  NOT NULL,
+  currency      VARCHAR(5)   DEFAULT 'USD',
+  tax           BOOLEAN      DEFAULT FALSE,
+  tax_rate      NUMERIC(5,2) DEFAULT 0,
+  monthly_cost  NUMERIC(12,4) NOT NULL,
+  items         JSONB        DEFAULT '[]',
+  created_at    TIMESTAMPTZ  DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ  DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_cloud_estimates_user ON cloud_estimates(user_id);
+CREATE INDEX IF NOT EXISTS idx_cloud_estimates_created ON cloud_estimates(created_at DESC);
+
+CREATE OR REPLACE TRIGGER cloud_estimates_updated_at
+  BEFORE UPDATE ON cloud_estimates
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();

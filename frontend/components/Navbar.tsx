@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Menu, X, Search, BarChart3, User, LogOut, Settings, ChevronDown } from 'lucide-react'
+import { Menu, X, Search, BarChart3, User, LogOut, Settings, ChevronDown, Cloud } from 'lucide-react'
 import ThemeToggle from '@/components/ThemeToggle'
 import HoverPreview from '@/components/HoverPreview'
 
@@ -14,6 +14,7 @@ const navLinks = [
   { label: 'Pricing',    href: '/pricing' },
   { label: 'Blog',       href: '/blog' },
   { label: 'Contact',    href: '/contact' },
+  { label: 'Cloud',      href: '/cloud' },
 ]
 
 // ── Auth helpers ───────────────────────────────────────────────────────────────
@@ -106,14 +107,18 @@ export default function Navbar() {
                 link.label === 'Pricing'    ? 'See pricing plans in INR' :
                 link.label === 'Blog'       ? 'Read AI tips and guides' :
                 link.label === 'Contact'    ? 'Get in touch with us' :
+                link.label === 'Cloud'      ? 'Compare cloud costs & calculate bills' :
                 link.label
               }
             >
               <Link key={link.href} href={link.href}
                 className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-all ${
-                  link.label === 'Compare' ? 'text-purple-300 hover:text-white hover:bg-purple-900/30' : 'text-slate-400 hover:text-white hover:bg-purple-900/20'
+                  link.label === 'Compare' ? 'text-purple-300 hover:text-white hover:bg-purple-900/30' :
+                  link.label === 'Cloud'   ? 'text-sky-300 hover:text-white hover:bg-sky-900/20' :
+                  'text-slate-400 hover:text-white hover:bg-purple-900/20'
                 }`}>
                 {link.label === 'Compare' && <BarChart3 className="w-3.5 h-3.5" />}
+                {link.label === 'Cloud'   && <Cloud className="w-3.5 h-3.5" />}
                 {link.label}
               </Link>
             </HoverPreview>
@@ -246,6 +251,7 @@ export default function Navbar() {
             <Link key={link.href} href={link.href} onClick={() => setOpen(false)}
               className="flex items-center gap-2 px-3 py-2.5 text-slate-300 hover:text-white hover:bg-purple-900/30 rounded-lg text-sm font-medium">
               {link.label === 'Compare' && <BarChart3 className="w-4 h-4 text-purple-400" />}
+              {link.label === 'Cloud'   && <Cloud className="w-4 h-4 text-sky-400" />}
               {link.label}
             </Link>
           ))}
