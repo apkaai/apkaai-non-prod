@@ -91,10 +91,6 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 p-4 bg-purple-950/30 rounded-xl border border-purple-800/30">
-            <p className="text-slate-400 text-xs text-center">Default credentials:</p>
-            <p className="text-purple-300 text-xs text-center font-mono mt-1">admin@apkaai.com / ApkaAI@Admin2026</p>
-          </div>
         </div>
       </div>
     </div>
