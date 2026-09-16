@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import {
   FileText, Plus, Trash2, Edit3, Copy, Download, Printer,
@@ -37,8 +37,29 @@ export default function BillPage() {
   const [taxRate,  setTaxRate]  = useState(18)
   const [editing,  setEditing]  = useState<EditState | null>(null)
   const [saved,    setSaved]    = useState(false)
+  const [addedMsg, setAddedMsg] = useState('')
   const [estimateId]            = useState(() => `EST-${Date.now().toString(36).toUpperCase()}`)
   const printRef               = useRef<HTMLDivElement>(null)
+
+  // Pick up any items passed from the calculator page via localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const raw = localStorage.getItem('cloud_pending_item')
+    if (!raw) return
+    try {
+      const pending: BillLineItem[] = JSON.parse(raw)
+      if (pending.length > 0) {
+        setItems(prev => {
+          const existingIds = new Set(prev.map(i => i.id))
+          const newItems = pending.filter(p => !existingIds.has(p.id))
+          return [...prev, ...newItems]
+        })
+        setAddedMsg(`${pending.length} service${pending.length > 1 ? 's' : ''} added from calculator`)
+        setTimeout(() => setAddedMsg(''), 4000)
+        localStorage.removeItem('cloud_pending_item')
+      }
+    } catch { /* ignore */ }
+  }, [])
 
   // Totals
   const subtotal  = items.reduce((s, i) => s + i.monthly, 0)
@@ -278,7 +299,15 @@ export default function BillPage() {
             </div>
           </div>
 
-          <div className="lg:grid lg:grid-cols-3 lg:gap-6">
+          {/* Added from calculator banner */}
+        {addedMsg && (
+          <div className="mb-4 flex items-center gap-3 bg-emerald-900/20 border border-emerald-700/40 rounded-xl px-4 py-3">
+            <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <p className="text-emerald-300 text-sm font-medium">{addedMsg}</p>
+          </div>
+        )}
+
+        <div className="lg:grid lg:grid-cols-3 lg:gap-6">
             {/* Left: Line items */}
             <div className="lg:col-span-2 space-y-4 mb-6 lg:mb-0">
               {/* Items */}

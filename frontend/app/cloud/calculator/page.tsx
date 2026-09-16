@@ -353,10 +353,31 @@ function CalculatorForm() {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-3">
-            <Link href="/cloud/bill"
+            <button
+              onClick={() => {
+                if (!currentService || !result) return
+                const item = {
+                  id:        `item-${Date.now()}`,
+                  provider,
+                  service:   currentService.name,
+                  serviceId: currentService.id,
+                  config,
+                  qty:       1,
+                  unitPrice: result.hourly,
+                  hourly:    result.hourly,
+                  monthly:   result.monthly,
+                  category:  currentService.category,
+                  label:     `${provider.toUpperCase()} ${currentService.name}`,
+                }
+                // Store pending item in localStorage for bill page to pick up
+                const pending = JSON.parse(localStorage.getItem('cloud_pending_item') || '[]')
+                pending.push(item)
+                localStorage.setItem('cloud_pending_item', JSON.stringify(pending))
+                window.location.href = '/cloud/bill'
+              }}
               className="btn-primary flex items-center gap-2 text-white font-bold px-6 py-3 rounded-xl text-sm">
               <Cloud className="w-4 h-4" /> Add to Bill Builder
-            </Link>
+            </button>
             <Link href="/cloud/compare"
               className="flex items-center gap-2 text-slate-300 hover:text-white font-semibold px-6 py-3 rounded-xl text-sm border border-purple-700/40 hover:border-purple-500 transition-all">
               <ArrowRight className="w-4 h-4" /> Compare Across Clouds
