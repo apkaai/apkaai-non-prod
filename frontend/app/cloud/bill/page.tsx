@@ -93,7 +93,15 @@ export default function BillPage() {
 
   function saveEdit() {
     if (!editing) return
-    const service = SERVICES[editing.provider]?.find(s => s.id === editing.serviceId)
+
+    // Use the first available service as fallback if serviceId is empty
+    const services = (SERVICES[editing.provider] || []).filter(
+      s => !editing.category || s.category === editing.category
+    )
+    const resolvedServiceId = editing.serviceId || services[0]?.id
+    if (!resolvedServiceId) return
+
+    const service = SERVICES[editing.provider]?.find(s => s.id === resolvedServiceId)
     if (!service) return
 
     // Populate config defaults for empty fields
@@ -102,12 +110,12 @@ export default function BillPage() {
       if (finalConfig[f.id] === undefined) finalConfig[f.id] = f.defaultValue
     })
 
-    const result = calculateCost(editing.provider, editing.serviceId, finalConfig)
+    const result = calculateCost(editing.provider, resolvedServiceId, finalConfig)
     const item: BillLineItem = {
       id:        editing.id,
       provider:  editing.provider,
       service:   service.name,
-      serviceId: editing.serviceId,
+      serviceId: resolvedServiceId,
       config:    finalConfig,
       qty:       1,
       unitPrice: result.hourly,
@@ -201,7 +209,7 @@ export default function BillPage() {
           {services.length > 0 && (
             <div className="mb-4">
               <label className="block text-xs text-slate-400 mb-2">Service</label>
-              <select value={editing.serviceId || services[0]?.id}
+              <select value={editing.serviceId || services[0]?.id || ''}
                 onChange={e => setEditing(ed => ed ? { ...ed, serviceId: e.target.value, config: {} } : null)}
                 className="w-full bg-purple-950/30 border border-purple-800/40 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
                 {services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
