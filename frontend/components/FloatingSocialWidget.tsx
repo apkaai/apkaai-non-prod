@@ -22,7 +22,7 @@ const SOCIAL_LINKS = [
   {
     id: 'instagram',
     label: 'Instagram',
-    href: 'https://instagram.com/apkaai',
+    href: 'https://www.instagram.com/apkaai2k26/',
     bg: 'bg-gradient-to-br from-[#f09433] via-[#e6683c] via-[#dc2743] via-[#cc2366] to-[#bc1888]',
     glow: 'shadow-[0_0_14px_4px_#e6683caa]',
     icon: (
@@ -47,7 +47,7 @@ const SOCIAL_LINKS = [
   {
     id: 'facebook',
     label: 'Facebook',
-    href: 'https://facebook.com/apkaai',
+    href: 'https://www.facebook.com/share/18pUPqwgCz/',
     bg: 'bg-[#1877F2]',
     glow: 'shadow-[0_0_14px_4px_#1877F2aa]',
     icon: (
@@ -71,7 +71,7 @@ const SOCIAL_LINKS = [
   {
     id: 'youtube',
     label: 'YouTube',
-    href: 'https://youtube.com/@apkaai',
+    href: 'https://www.youtube.com/@apkAI2026',
     bg: 'bg-[#FF0000]',
     glow: 'shadow-[0_0_14px_4px_#FF0000aa]',
     icon: (
