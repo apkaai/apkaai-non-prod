@@ -26,7 +26,7 @@ export default function FeaturedToolsSection() {
             href="/tools"
             className="inline-flex items-center gap-1.5 text-purple-400 hover:text-purple-300 text-sm font-semibold transition-colors flex-shrink-0 group"
           >
-            View all 43 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            View all 70 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
@@ -43,7 +43,7 @@ export default function FeaturedToolsSection() {
             href="/tools"
             className="inline-flex items-center gap-2.5 btn-primary text-white font-bold px-9 py-3.5 rounded-xl text-sm shadow-glow-sm"
           >
-            Explore All 43 AI Tools <ArrowRight className="w-4 h-4" />
+            Explore All 70 AI Tools <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

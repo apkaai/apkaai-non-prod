@@ -46,7 +46,7 @@ export default function HeroSection() {
         {/* Announcement badge */}
         <div className="inline-flex items-center gap-2.5 bg-purple-900/40 border border-purple-700/50 rounded-full px-5 py-2 text-sm text-purple-300 mb-10 backdrop-blur-sm">
           <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse flex-shrink-0" />
-          <span>43 AI Tools &nbsp;·&nbsp; 15 Categories &nbsp;·&nbsp; Updated Daily</span>
+          <span>70 AI Tools &nbsp;·&nbsp; 15 Categories &nbsp;·&nbsp; Updated Daily</span>
           <span className="hidden sm:inline-flex items-center gap-1 text-purple-400 font-semibold">
             <Sparkles className="w-3.5 h-3.5" /> New tools added weekly
           </span>
@@ -70,17 +70,17 @@ export default function HeroSection() {
         {/* Sub-headline */}
         <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
           World&apos;s #1 AI marketplace. Discover, compare and access ChatGPT, Claude, Midjourney,
-          Cursor and 43 premium AI tools — all in one place, at the best prices.
+          Cursor and 70 premium AI tools — all in one place, at the best prices.
         </p>
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-14">
-          <HoverPreview label="Browse all 43 AI tools across 15 categories" icon={<Sparkles className="w-3.5 h-3.5" />}>
+          <HoverPreview label="Browse all 70 AI tools across 15 categories" icon={<Sparkles className="w-3.5 h-3.5" />}>
             <Link
               href="/tools"
               className="btn-primary flex items-center gap-2.5 text-white font-bold px-9 py-4 rounded-xl text-base shadow-glow-md w-full sm:w-auto justify-center"
             >
-              Explore All 43 Tools <ArrowRight className="w-5 h-5" />
+              Explore All 70 Tools <ArrowRight className="w-5 h-5" />
             </Link>
           </HoverPreview>
           <HoverPreview label="Compare up to 4 AI tools side by side" icon={<BarChart3 className="w-3.5 h-3.5" />}>

@@ -5,7 +5,7 @@ const features = [
     icon: Sparkles,
     title: 'Curated, Not Crowded',
     description:
-      'Every single tool is hand-picked and verified by our team. No spam, no outdated tools — only the best 43 AI tools across 15 categories.',
+      'Every single tool is hand-picked and verified by our team. No spam, no outdated tools — only the best 70 AI tools across 15 categories.',
     accent: 'text-purple-400',
     bg: 'bg-purple-900/30',
     border: 'border-purple-700/30',

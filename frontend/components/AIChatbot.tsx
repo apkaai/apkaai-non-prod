@@ -7,17 +7,17 @@ import Image from 'next/image'
 ───────────────────────────────────────────────────────────────────────────── */
 const KB: Record<string, string> = {
   // What is ApkaAI
-  'what is apkaai': 'ApkaAI is the World\'s #1 AI tools marketplace. We help you discover, compare and access 43 premium AI tools — ChatGPT, Claude, Midjourney, Cursor and more — all in one place.',
+  'what is apkaai': 'ApkaAI is the World\'s #1 AI tools marketplace. We help you discover, compare and access 70 premium AI tools — ChatGPT, Claude, Midjourney, Cursor and more — all in one place.',
   'about apkaai': 'ApkaAI is built by Ashutosh Kumar Pandey. Our mission is to make AI tools accessible to every professional, creator and student around the World by curating the best tools and showing accurate pricing in INR.',
-  'what does apkaai do': 'ApkaAI lets you browse 43 hand-picked AI tools across 15 categories, compare them side-by-side on pricing and features, and get direct links to subscribe at the best price.',
+  'what does apkaai do': 'ApkaAI lets you browse 70 hand-picked AI tools across 15 categories, compare them side-by-side on pricing and features, and get direct links to subscribe at the best price.',
 
   // How it works
-  'how does it work': 'Browse our directory of 43 AI tools → use our comparison tool to pick the right one → click through to the official website to subscribe. No account needed to browse!',
+  'how does it work': 'Browse our directory of 70 AI tools → use our comparison tool to pick the right one → click through to the official website to subscribe. No account needed to browse!',
   'how to get started': 'Simply go to apkaai.com, click "All Tools" or browse by category. No sign-up required to explore. Create a free account to save your favourites.',
   'how to use': 'Use the search bar to find specific tools, browse by category (Chat, Code, Image, Video etc.), or use our Compare tool to see up to 4 tools side by side.',
 
   // Tools
-  'how many tools': 'We currently list 43 hand-picked AI tools across 15 categories, updated regularly.',
+  'how many tools': 'We currently list 70 hand-picked AI tools across 15 categories, updated regularly.',
   'what tools': 'We cover ChatGPT, Claude, Gemini, Midjourney, Cursor, Runway, ElevenLabs, Suno, GitHub Copilot, Perplexity, Notion AI, and 32 more tools.',
   'categories': 'Our 15 categories include: AI Chat & Research, Writing & Content, Image Generation, Video Generation, Music & Audio, Coding, Presentations, Research & Productivity, Design, Voice & Avatars, Automation, Business & Marketing, Meetings & Transcription, Learning, and AI Search.',
   'best ai tool': 'The most popular tools on ApkaAI are ChatGPT (4.8★), Claude (4.7★), and Midjourney (4.8★). Use our comparison tool to find the best one for your specific needs.',
@@ -35,7 +35,7 @@ const KB: Record<string, string> = {
   'comparison': 'Select any tools from the Compare page and see a detailed side-by-side breakdown of features, pricing in INR, and user ratings.',
 
   // Account
-  'account': 'You can browse all 43 AI tools without an account. Create a free account to save favourites and get personalised recommendations.',
+  'account': 'You can browse all 70 AI tools without an account. Create a free account to save favourites and get personalised recommendations.',
   'sign up': 'Sign up for free at apkaai.com/signup. We only ask for your name and email — no credit card required.',
   'sign in': 'Sign in at apkaai.com/signin with your email and password.',
   'forgot password': 'Reset your password at apkaai.com/forgot-password. Enter your email and we\'ll send a reset link.',

@@ -79,7 +79,7 @@ export default function ProfilePage() {
           <Link href="/tools" className="glow-border rounded-xl p-5 bg-[#0F0A1E] hover:bg-purple-950/20 transition-all group">
             <Zap className="w-6 h-6 text-purple-400 mb-2" />
             <p className="text-white font-semibold text-sm">Browse AI Tools</p>
-            <p className="text-slate-400 text-xs mt-0.5">43 tools curated</p>
+            <p className="text-slate-400 text-xs mt-0.5">70 tools curated</p>
           </Link>
           <Link href="/compare" className="glow-border rounded-xl p-5 bg-[#0F0A1E] hover:bg-purple-950/20 transition-all group">
             <ArrowRight className="w-6 h-6 text-purple-400 mb-2" />

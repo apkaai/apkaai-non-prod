@@ -101,7 +101,7 @@ export default function Navbar() {
             <HoverPreview
               key={link.href}
               label={
-                link.label === 'All Tools'  ? 'View all 43 AI tools' :
+                link.label === 'All Tools'  ? 'View all 70 AI tools' :
                 link.label === 'Categories' ? 'Browse tools by category' :
                 link.label === 'Compare'    ? 'Compare AI tools side by side' :
                 link.label === 'Pricing'    ? 'See pricing plans in INR' :
@@ -128,7 +128,7 @@ export default function Navbar() {
         {/* Right Actions */}
         <div className="flex items-center gap-2">
           {/* Search */}
-          <HoverPreview label="Search across all 43 AI tools" icon={<Search className="w-3.5 h-3.5" />}>
+          <HoverPreview label="Search across all 70 AI tools" icon={<Search className="w-3.5 h-3.5" />}>
             <button onClick={() => setSearchOpen(p => !p)} aria-label="Search"
               className={`p-2 rounded-lg transition-all ${searchOpen ? 'text-white bg-purple-700/40' : 'text-slate-400 hover:text-white hover:bg-purple-900/30'}`}>
               {searchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}

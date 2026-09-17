@@ -8,7 +8,7 @@ const EMAIL    = 'ashutoshkumarpandey@apkaai.com'
 
 const footerLinks = {
   'AI Tools': [
-    { label: 'All 43 Tools',       href: '/tools' },
+    { label: 'All 70 Tools',       href: '/tools' },
     { label: 'AI Chat & Research',  href: '/category/ai-chat' },
     { label: 'Image Generation',    href: '/category/image-generation' },
     { label: 'Coding Tools',        href: '/category/coding' },
@@ -38,7 +38,7 @@ const socialLinks = [
 
 // Preview labels for footer nav links (social links are intentionally excluded)
 const LINK_PREVIEWS: Record<string, string> = {
-  '/tools':                    'Browse all 43 AI tools',
+  '/tools':                    'Browse all 70 AI tools',
   '/category/ai-chat':         'ChatGPT, Claude, Gemini & more',
   '/category/image-generation':'Midjourney, DALL·E, Stable Diffusion',
   '/category/coding':          'Cursor, GitHub Copilot & dev tools',
@@ -70,7 +70,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-5">
-              World&apos;s #1 marketplace for AI tools. Discover, compare and access 43 AI tools — ChatGPT, Claude, Midjourney and more — all in one place.
+              World&apos;s #1 marketplace for AI tools. Discover, compare and access 70 AI tools — ChatGPT, Claude, Midjourney and more — all in one place.
             </p>
 
             {/* Contact info */}

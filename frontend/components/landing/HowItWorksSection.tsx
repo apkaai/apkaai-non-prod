@@ -7,7 +7,7 @@ const steps = [
     icon: Search,
     title: 'Discover AI Tools',
     description:
-      'Browse 43 hand-picked AI tools across 15 categories — from chat and coding to image generation and automation. Use our search to find exactly what you need.',
+      'Browse 70 hand-picked AI tools across 15 categories — from chat and coding to image generation and automation. Use our search to find exactly what you need.',
     highlight: 'No account needed to browse',
     color: 'from-purple-600/20 to-purple-900/10',
     border: 'border-purple-600/30',

@@ -148,7 +148,7 @@ export default function AdminDashboard() {
                 {[
                   { label: 'Total Users',     value: users.length,                              icon: Users,      color: 'text-purple-400' },
                   { label: 'Contacts Recv.',  value: contacts.length,                           icon: Mail,       color: 'text-blue-400' },
-                  { label: 'AI Tools',        value: 43,                                        icon: BarChart3,  color: 'text-emerald-400' },
+                  { label: 'AI Tools',        value: 70,                                        icon: BarChart3,  color: 'text-emerald-400' },
                   { label: 'Drive Files',     value: driveFiles.length,                         icon: Database,   color: 'text-amber-400' },
                 ].map(s => (
                   <div key={s.label} className="glow-border rounded-xl p-5 bg-[#0F0A1E]">

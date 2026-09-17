@@ -1,7 +1,7 @@
 import { Globe, Users, Star, BarChart3, Zap, Shield } from 'lucide-react'
 
 const stats = [
-  { icon: Globe,     value: '43',    label: 'AI Tools',       sub: 'hand-picked & verified'    },
+  { icon: Globe,     value: '70',    label: 'AI Tools',       sub: 'hand-picked & verified'    },
   { icon: BarChart3, value: '15',    label: 'Categories',     sub: 'every use case covered'    },
   { icon: Users,     value: '280+',  label: 'Active Users',   sub: 'growing every day'         },
   { icon: Star,      value: '4.7',   label: 'Avg Rating',     sub: 'across all tools'          },
