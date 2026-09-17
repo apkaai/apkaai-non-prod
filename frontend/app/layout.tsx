@@ -7,6 +7,8 @@ import AIChatbot from '@/components/AIChatbot'
 import StarryBackground from '@/components/StarryBackground'
 import ComingSoonWatermark from '@/components/ComingSoonWatermark'
 import GaneshaFloat from '@/components/GaneshaFloat'
+import { CartProvider } from '@/lib/cart-context'
+import CartDrawer from '@/components/cart/CartDrawer'
 
 export const metadata: Metadata = {
   title: 'ApkaAI — Discover & Buy the Best AI Tools',
@@ -39,17 +41,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#08051A] text-slate-100 antialiased relative">
-        <StarryBackground />
-        <ComingSoonWatermark />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        {/* Fixed widget bar — chatbot LEFT, social widget RIGHT, side by side */}
-        <div className="fixed bottom-6 right-5 z-[9999] flex flex-row items-end gap-3">
-          <AIChatbot />
-          <FloatingSocialWidget />
-        </div>
-        <GaneshaFloat />
+        <CartProvider>
+          <StarryBackground />
+          <ComingSoonWatermark />
+          <Navbar />
+          <CartDrawer />
+          <main>{children}</main>
+          <Footer />
+          {/* Fixed widget bar — chatbot LEFT, social widget RIGHT, side by side */}
+          <div className="fixed bottom-6 right-5 z-[9999] flex flex-row items-end gap-3">
+            <AIChatbot />
+            <FloatingSocialWidget />
+          </div>
+          <GaneshaFloat />
+        </CartProvider>
       </body>
     </html>
   )

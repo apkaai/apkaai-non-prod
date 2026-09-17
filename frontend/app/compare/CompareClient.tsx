@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { X, Plus, ExternalLink, Star, Check, Zap, BarChart3, Search, ArrowRight } from 'lucide-react'
 import { tools, categories } from '@/lib/tools-data'
 import type { AITool } from '@/lib/tools-data'
+import AddToCartButton from '@/components/cart/AddToCartButton'
 
 const MAX_COMPARE = 4
 
@@ -212,14 +213,19 @@ function ComparisonTable({ tools: selectedTools }: { tools: AITool[] }) {
             <td className="p-4 sticky left-0 bg-[#08051A]"></td>
             {selectedTools.map(t => (
               <td key={t.id} className="p-4 text-center">
-                <a
-                  href={t.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary inline-flex items-center gap-1.5 text-white text-xs font-bold px-4 py-2 rounded-lg"
-                >
-                  Try {t.name} <ExternalLink className="w-3 h-3" />
-                </a>
+                <div className="flex flex-col items-center gap-2">
+                  <a
+                    href={t.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary inline-flex items-center gap-1.5 text-white text-xs font-bold px-4 py-2 rounded-lg"
+                  >
+                    Try {t.name} <ExternalLink className="w-3 h-3" />
+                  </a>
+                  {t.pricing !== 'Free' && (
+                    <AddToCartButton tool={t} size="sm" variant="secondary" stopPropagation={false} />
+                  )}
+                </div>
               </td>
             ))}
           </tr>
@@ -355,14 +361,19 @@ export default function CompareClient() {
                             Check website for pricing
                           </div>
                         )}
-                        <a
-                          href={tool.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 w-full btn-primary text-white text-sm font-semibold py-2.5 rounded-xl"
-                        >
-                          Visit {tool.name} <ExternalLink className="w-4 h-4" />
-                        </a>
+                        <div className="flex flex-col gap-2">
+                          <a
+                            href={tool.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 w-full btn-primary text-white text-sm font-semibold py-2.5 rounded-xl"
+                          >
+                            Visit {tool.name} <ExternalLink className="w-4 h-4" />
+                          </a>
+                          {tool.pricing !== 'Free' && (
+                            <AddToCartButton tool={tool} size="md" variant="secondary" className="w-full justify-center" stopPropagation={false} />
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}

@@ -1,8 +1,10 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Check, ExternalLink, Star, ChevronDown, ChevronUp, Zap } from 'lucide-react'
+import { Check, ExternalLink, Star, ChevronDown, ChevronUp, Zap, ShoppingCart } from 'lucide-react'
 import { tools, categories } from '@/lib/tools-data'
+import AddToCartButton from '@/components/cart/AddToCartButton'
+import { PlanCartButton } from '@/app/tools/[slug]/ToolDetailCartSection'
 
 const CATEGORY_FILTERS = [{ slug: 'all', name: 'All Tools', emoji: '🌟' }, ...categories]
 
@@ -154,13 +156,14 @@ export default function PricingClient() {
                               </li>
                             ))}
                           </ul>
+                          <PlanCartButton tool={tool} plan={plan} />
                         </div>
                       ))}
                     </div>
                   ) : (
                     <p className="text-slate-400 text-sm mb-4">Visit the tool's website for detailed pricing information.</p>
                   )}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     <a
                       href={tool.website}
                       target="_blank"
@@ -175,6 +178,9 @@ export default function PricingClient() {
                     >
                       View Details
                     </Link>
+                    {tool.pricing !== 'Free' && (
+                      <AddToCartButton tool={tool} size="md" variant="secondary" stopPropagation={false} />
+                    )}
                   </div>
                 </div>
               )}

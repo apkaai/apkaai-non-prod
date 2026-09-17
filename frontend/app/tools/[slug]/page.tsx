@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Star, ExternalLink, Check, ArrowRight, Globe, Tag, Zap } from 'lucide-react'
 import ToolCard from '@/components/ToolCard'
 import { getToolBySlug, getToolsByCategory, tools, categories } from '@/lib/tools-data'
+import { SidebarCartCTA, PlanCartButton } from './ToolDetailCartSection'
 
 interface Props { params: { slug: string } }
 
@@ -157,6 +158,7 @@ export default function ToolDetailPage({ params }: Props) {
                           </li>
                         ))}
                       </ul>
+                      <PlanCartButton tool={tool} plan={plan} />
                     </div>
                   ))}
                 </div>
@@ -196,6 +198,9 @@ export default function ToolDetailPage({ params }: Props) {
                 Get Deal / Discount
                 <Tag className="w-4 h-4" />
               </Link>
+
+              {/* Add to Cart */}
+              <SidebarCartCTA tool={tool} />
 
               {/* Meta info */}
               <div className="mt-5 space-y-3 border-t border-purple-900/30 pt-5">
