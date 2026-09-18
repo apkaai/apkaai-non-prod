@@ -53,6 +53,7 @@ export const categories: Category[] = [
   { id: '13', name: 'Meetings & Transcription',  slug: 'meetings',         emoji: '📝', description: 'AI meeting assistants and transcription',    count: 4 },
   { id: '14', name: 'Learning',                  slug: 'learning',         emoji: '🧠', description: 'AI-powered learning platforms',              count: 4 },
   { id: '15', name: 'AI Search',                 slug: 'ai-search',        emoji: '🔍', description: 'Next-gen AI search engines',                 count: 4 },
+  { id: '16', name: 'Backup & Data Protection',  slug: 'backup-protection',emoji: '🔄', description: 'Enterprise backup, recovery & data management', count: 7 },
 ]
 
 export const tools: AITool[] = [
@@ -864,6 +865,106 @@ export const tools: AITool[] = [
     rating: 4.4, reviews: 89000, tags: ['Google', 'Search', 'AI Overview', 'Free', 'Gemini'],
     featured: false, new: false,
     pricingPlans: [{ name: 'Free', price: '₹0', monthly: 0, features: ['AI search overviews', 'Google integration', 'Gemini powered', 'Everyone'] }]
+  },
+
+  // ── Backup & Data Protection ─────────────────────────────────────────────────
+  {
+    id: '61', name: 'Commvault', slug: 'commvault',
+    tagline: 'Intelligent data protection and cyber resilience',
+    description: 'Commvault is a leading enterprise data protection platform offering backup, recovery, disaster recovery, and cyber resilience across on-premises, cloud, and SaaS environments. Trusted by Fortune 500 companies globally.',
+    category: 'Backup & Data Protection', categorySlug: 'backup-protection', logo: '🛡️',
+    website: 'https://commvault.com', pricing: 'Paid', startingPrice: 'Custom', monthlyPrice: 0,
+    rating: 4.5, reviews: 18500, tags: ['Enterprise Backup', 'Cyber Resilience', 'Disaster Recovery', 'Cloud', 'SaaS Protection'],
+    featured: false, new: false,
+    pricingPlans: [
+      { name: 'Backup & Recovery', price: 'Contact Sales', monthly: 0, features: ['On-prem & cloud backup', 'Granular recovery', 'Deduplication', 'Policy automation'] },
+      { name: 'Complete Data Protection', price: 'Contact Sales', monthly: 0, features: ['Everything in Backup', 'Disaster recovery', 'Compliance', 'Air-gap protection'], popular: true },
+      { name: 'Cloud Rewind', price: 'Contact Sales', monthly: 0, features: ['SaaS backup', 'Microsoft 365', 'Salesforce', 'Cloud-native recovery'] },
+    ]
+  },
+  {
+    id: '62', name: 'Cohesity', slug: 'cohesity',
+    tagline: 'AI-powered data security and management',
+    description: 'Cohesity provides a unified data management platform powered by AI. It combines backup, disaster recovery, file/object services, and data insights — eliminating mass data fragmentation across your enterprise.',
+    category: 'Backup & Data Protection', categorySlug: 'backup-protection', logo: '🔵',
+    website: 'https://cohesity.com', pricing: 'Paid', startingPrice: 'Custom', monthlyPrice: 0,
+    rating: 4.6, reviews: 12400, tags: ['AI Data Management', 'Backup', 'Cyber Security', 'Multi-cloud', 'DataHawk'],
+    featured: false, new: false,
+    pricingPlans: [
+      { name: 'DataProtect', price: 'Contact Sales', monthly: 0, features: ['Backup & recovery', 'Instant mass restore', 'Global search', 'Cloud archival'] },
+      { name: 'DataGovern', price: 'Contact Sales', monthly: 0, features: ['Data classification', 'Threat intelligence', 'Sensitive data scanning', 'Compliance'], popular: true },
+      { name: 'Fort Knox', price: 'Contact Sales', monthly: 0, features: ['Isolated cloud vault', 'Ransomware recovery', 'Immutable backups', 'SaaS delivery'] },
+    ]
+  },
+  {
+    id: '63', name: 'Acronis', slug: 'acronis',
+    tagline: 'Cyber protection — backup meets cybersecurity',
+    description: 'Acronis pioneered cyber protection by combining backup, disaster recovery, and cybersecurity in one platform. Protects 20+ platforms including Windows, Mac, Linux, iOS, and Android.',
+    category: 'Backup & Data Protection', categorySlug: 'backup-protection', logo: '🔐',
+    website: 'https://acronis.com', pricing: 'Paid', startingPrice: '₹580/mo', monthlyPrice: 580,
+    rating: 4.4, reviews: 31200, tags: ['Cyber Protection', 'Backup', 'Anti-ransomware', 'Cloud Backup', 'MSP'],
+    featured: false, new: false,
+    pricingPlans: [
+      { name: 'Cyber Protect Essentials', price: '₹580/mo', monthly: 580, features: ['Backup & recovery', 'Ransomware protection', '5 devices', '50 GB cloud storage'] },
+      { name: 'Cyber Protect Advanced', price: '₹1,250/mo', monthly: 1250, features: ['Everything in Essentials', 'Vulnerability assessment', 'Remote desktop', '500 GB cloud'], popular: true },
+      { name: 'Cyber Protect Backup', price: '₹830/mo', monthly: 830, features: ['Backup-focused', 'Physical & virtual', 'Deduplication', 'Flexible storage'] },
+    ]
+  },
+  {
+    id: '64', name: 'Veeam', slug: 'veeam',
+    tagline: 'The #1 data protection and ransomware recovery',
+    description: 'Veeam is the global leader in data protection with 450,000+ customers. Provides backup, recovery, and data management for virtual, physical, cloud, SaaS, and Kubernetes environments.',
+    category: 'Backup & Data Protection', categorySlug: 'backup-protection', logo: '🟢',
+    website: 'https://veeam.com', pricing: 'Paid', startingPrice: '₹2,490/mo', monthlyPrice: 2490,
+    rating: 4.7, reviews: 54300, tags: ['Backup', 'VMware', 'Azure', 'Kubernetes', 'Ransomware Recovery'],
+    featured: false, new: false,
+    pricingPlans: [
+      { name: 'Foundation', price: '₹2,490/mo', monthly: 2490, features: ['VM backup', 'Physical server backup', 'Cloud storage', 'Basic monitoring'] },
+      { name: 'Advanced', price: '₹4,150/mo', monthly: 4150, features: ['Everything in Foundation', 'SaaS backup', 'Advanced analytics', 'Instant VM recovery'], popular: true },
+      { name: 'Premium', price: '₹6,640/mo', monthly: 6640, features: ['Everything in Advanced', 'Kubernetes backup', 'AI threat detection', 'Immutable storage', '24/7 support'] },
+    ]
+  },
+  {
+    id: '65', name: 'Dhruva', slug: 'dhruva',
+    tagline: "India's trusted cloud backup and DR platform",
+    description: 'Dhruva is an Indian cloud backup and disaster recovery platform designed for SMBs and enterprises. Offers localized data sovereignty with data centers in India, affordable pricing in INR, and 24/7 Indian support.',
+    category: 'Backup & Data Protection', categorySlug: 'backup-protection', logo: '🇮🇳',
+    website: 'https://dhruvacloud.com', pricing: 'Paid', startingPrice: '₹1,500/mo', monthlyPrice: 1500,
+    rating: 4.3, reviews: 3800, tags: ['India Backup', 'Data Sovereignty', 'SMB', 'Cloud DR', 'INR Pricing'],
+    featured: false, new: false,
+    pricingPlans: [
+      { name: 'Starter', price: '₹1,500/mo', monthly: 1500, features: ['100 GB backup', 'File & folder backup', 'Indian data center', 'Email support'] },
+      { name: 'Business', price: '₹4,500/mo', monthly: 4500, features: ['1 TB backup', 'Server backup', 'Disaster recovery', '24/7 support'], popular: true },
+      { name: 'Enterprise', price: 'Contact Sales', monthly: 0, features: ['Unlimited storage', 'Custom DR plans', 'Dedicated account manager', 'SLA guarantee'] },
+    ]
+  },
+  {
+    id: '66', name: 'Veritas / OpenText', slug: 'veritas-opentext',
+    tagline: 'Enterprise data management and information governance',
+    description: 'Veritas (now part of OpenText) provides enterprise-grade backup, recovery, storage management, and information governance. Powers data protection for 87% of Fortune 500 companies with NetBackup and Backup Exec.',
+    category: 'Backup & Data Protection', categorySlug: 'backup-protection', logo: '🏢',
+    website: 'https://veritas.com', pricing: 'Paid', startingPrice: 'Custom', monthlyPrice: 0,
+    rating: 4.4, reviews: 22100, tags: ['NetBackup', 'Enterprise', 'Compliance', 'eDiscovery', 'Information Governance'],
+    featured: false, new: false,
+    pricingPlans: [
+      { name: 'NetBackup', price: 'Contact Sales', monthly: 0, features: ['Backup & recovery', 'Deduplication', 'Cloud storage', 'Orchestrated recovery'] },
+      { name: 'Backup Exec', price: 'Contact Sales', monthly: 0, features: ['SMB-focused', 'Physical & virtual', 'Cloud storage', 'Simple management'], popular: true },
+      { name: 'Alta Data Protection', price: 'Contact Sales', monthly: 0, features: ['SaaS-based', 'Multi-cloud', 'Ransomware recovery', 'Compliance & governance'] },
+    ]
+  },
+  {
+    id: '67', name: 'Rubrik', slug: 'rubrik',
+    tagline: 'Cyber recovery and data security cloud',
+    description: 'Rubrik is a cloud data management and cyber recovery platform. Provides zero-trust data security, ransomware protection, and instant recovery for enterprise workloads across cloud, on-premises, and SaaS.',
+    category: 'Backup & Data Protection', categorySlug: 'backup-protection', logo: '💎',
+    website: 'https://rubrik.com', pricing: 'Paid', startingPrice: 'Custom', monthlyPrice: 0,
+    rating: 4.7, reviews: 15700, tags: ['Zero Trust', 'Ransomware Recovery', 'Cloud Data', 'Immutable', 'Microsoft 365'],
+    featured: false, new: false,
+    pricingPlans: [
+      { name: 'Security Cloud', price: 'Contact Sales', monthly: 0, features: ['Data observability', 'Ransomware investigation', 'Threat hunting', 'Sensitive data monitoring'] },
+      { name: 'Data Protection', price: 'Contact Sales', monthly: 0, features: ['Backup & recovery', 'Instant recovery', 'Cloud archive', 'Cluster management'], popular: true },
+      { name: 'Cyber Recovery', price: 'Contact Sales', monthly: 0, features: ['Everything in Data Protection', 'Isolated recovery environment', 'Orchestrated DR', 'Compliance'] },
+    ]
   },
 ]
 

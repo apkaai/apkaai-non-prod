@@ -857,3 +857,193 @@ export const CATEGORIES: { id: CategoryId; label: string; emoji: string; descrip
 ]
 
 export const DATA_LAST_UPDATED = 'September 2026'
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Backup & Data Protection Vendors
+// Displayed in the Cloud section under "Backup & Data Protection"
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface BackupVendor {
+  id:          string
+  name:        string
+  slug:        string
+  logo:        string
+  tagline:     string
+  description: string
+  website:     string
+  founded:     string
+  hq:          string
+  deployments: string[]   // On-prem, Cloud, SaaS, Hybrid
+  platforms:   string[]   // VMware, Azure, AWS, K8s, Physical, SaaS apps …
+  strengths:   string[]
+  badge?:      string
+  pricingModel: 'subscription' | 'perpetual' | 'usage-based' | 'custom'
+  startingPrice: string
+  plans: {
+    name:     string
+    price:    string
+    target:   string         // SMB / Enterprise / MSP
+    features: string[]
+    popular?: boolean
+  }[]
+}
+
+export const BACKUP_VENDORS: BackupVendor[] = [
+  {
+    id:           'commvault',
+    name:         'Commvault',
+    slug:         'commvault',
+    logo:         '🛡️',
+    tagline:      'Intelligent data protection and cyber resilience',
+    description:  'Commvault delivers enterprise-grade data protection, backup, recovery, and cyber resilience across on-premises, cloud, and SaaS. Its Metallic SaaS platform makes deployment fast without infrastructure overhead.',
+    website:      'https://commvault.com',
+    founded:      '1988',
+    hq:           'Tinton Falls, NJ, USA',
+    deployments:  ['On-Premises', 'Cloud', 'SaaS', 'Hybrid'],
+    platforms:    ['VMware', 'Hyper-V', 'AWS', 'Azure', 'GCP', 'Microsoft 365', 'Salesforce', 'Kubernetes', 'Physical Servers'],
+    strengths:    ['Ransomware recovery', 'Air-gap protection', 'Compliance & eDiscovery', 'Broad workload support'],
+    badge:        'Gartner Leader',
+    pricingModel: 'custom',
+    startingPrice: 'Contact Sales',
+    plans: [
+      { name: 'Backup & Recovery', price: 'Contact Sales', target: 'Enterprise', features: ['On-prem & cloud backup', 'Granular recovery', 'Deduplication', 'Policy-based automation'] },
+      { name: 'Complete Data Protection', price: 'Contact Sales', target: 'Enterprise', features: ['Backup + DR + compliance', 'Air-gap immutable copies', 'SLA dashboards', 'Global search'], popular: true },
+      { name: 'Metallic SaaS', price: 'Contact Sales', target: 'SMB / Mid-market', features: ['SaaS-delivered backup', 'Microsoft 365', 'Salesforce', 'No infrastructure needed'] },
+    ],
+  },
+  {
+    id:           'cohesity',
+    name:         'Cohesity',
+    slug:         'cohesity',
+    logo:         '🔵',
+    tagline:      'AI-powered data security and management platform',
+    description:  'Cohesity radically simplifies data management by consolidating backup, DR, file services, and analytics on a single hyperscale platform. DataHawk AI detects threats before they cause damage.',
+    website:      'https://cohesity.com',
+    founded:      '2013',
+    hq:           'San Jose, CA, USA',
+    deployments:  ['On-Premises', 'Cloud', 'SaaS', 'Hybrid'],
+    platforms:    ['VMware', 'Hyper-V', 'AWS', 'Azure', 'GCP', 'NAS', 'Physical', 'Kubernetes', 'Microsoft 365'],
+    strengths:    ['AI-powered threat detection', 'Instant mass restore', 'Data classification', 'Fort Knox vault'],
+    badge:        'Gartner Magic Quadrant Leader',
+    pricingModel: 'custom',
+    startingPrice: 'Contact Sales',
+    plans: [
+      { name: 'DataProtect', price: 'Contact Sales', target: 'Enterprise', features: ['Backup & recovery', 'Instant mass restore', 'Global dedup', 'Cloud archive'] },
+      { name: 'DataGovern', price: 'Contact Sales', target: 'Enterprise', features: ['Data classification', 'Sensitive data scanning', 'Threat detection', 'Compliance reporting'], popular: true },
+      { name: 'Fort Knox', price: 'Contact Sales', target: 'Enterprise', features: ['Isolated cloud vault', 'Immutable backups', 'Ransomware recovery', 'SaaS delivery'] },
+    ],
+  },
+  {
+    id:           'acronis',
+    name:         'Acronis',
+    slug:         'acronis',
+    logo:         '🔐',
+    tagline:      'Cyber protection — backup meets cybersecurity',
+    description:  'Acronis uniquely combines backup, disaster recovery, AI-based malware protection, and endpoint management in one agent. The Cyber Protect platform is popular with MSPs worldwide.',
+    website:      'https://acronis.com',
+    founded:      '2003',
+    hq:           'Schaffhausen, Switzerland',
+    deployments:  ['On-Premises', 'Cloud', 'Hybrid'],
+    platforms:    ['Windows', 'Mac', 'Linux', 'VMware', 'Hyper-V', 'Microsoft 365', 'iOS', 'Android'],
+    strengths:    ['Unified backup + security', 'Anti-ransomware AI', 'MSP-friendly', 'Easy deployment'],
+    badge:        'MSP Favorite',
+    pricingModel: 'subscription',
+    startingPrice: '₹580/mo',
+    plans: [
+      { name: 'Cyber Protect Essentials', price: '₹580/mo', target: 'SMB', features: ['Backup & recovery', 'Ransomware protection', '5 devices', '50 GB cloud'] },
+      { name: 'Cyber Protect Advanced', price: '₹1,250/mo', target: 'SMB / Mid-market', features: ['Vulnerability assessment', 'Patch management', 'Remote desktop', '500 GB cloud'], popular: true },
+      { name: 'Cyber Protect for MSPs', price: 'Per-device pricing', target: 'MSPs', features: ['Multi-tenant portal', 'White-label', 'Automated billing', 'All features'] },
+    ],
+  },
+  {
+    id:           'veeam',
+    name:         'Veeam',
+    slug:         'veeam',
+    logo:         '🟢',
+    tagline:      '#1 global leader in data protection & recovery',
+    description:  'Veeam protects 450,000+ customers across virtual, physical, cloud, SaaS, and Kubernetes workloads. Known for its Instant VM Recovery, 3-2-1-1-0 rule enforcement, and tight VMware/Azure integration.',
+    website:      'https://veeam.com',
+    founded:      '2006',
+    hq:           'Columbus, OH, USA',
+    deployments:  ['On-Premises', 'Cloud', 'SaaS', 'Hybrid'],
+    platforms:    ['VMware', 'Hyper-V', 'AWS', 'Azure', 'GCP', 'Kubernetes', 'Microsoft 365', 'Physical', 'NAS'],
+    strengths:    ['Instant VM recovery', 'Kubernetes-native backup', 'SureBackup verification', 'Immutable storage'],
+    badge:        'Market Leader',
+    pricingModel: 'subscription',
+    startingPrice: '₹2,490/mo',
+    plans: [
+      { name: 'Foundation', price: '₹2,490/mo', target: 'SMB', features: ['VM backup', 'Physical backup', 'Cloud storage', 'Basic monitoring'] },
+      { name: 'Advanced', price: '₹4,150/mo', target: 'Mid-market', features: ['SaaS backup', 'Advanced analytics', 'Instant VM recovery', 'Orchestrated DR'], popular: true },
+      { name: 'Premium', price: '₹6,640/mo', target: 'Enterprise', features: ['Kubernetes backup', 'AI threat detection', 'Immutable storage', '24/7 support'] },
+    ],
+  },
+  {
+    id:           'dhruva',
+    name:         'Dhruva',
+    slug:         'dhruva',
+    logo:         '🇮🇳',
+    tagline:      "India's trusted cloud backup and DR platform",
+    description:  "Dhruva is an Indian cloud backup and disaster recovery platform built for Indian enterprises. Offers complete data sovereignty with Indian data centers, INR pricing, and local 24/7 support — ideal for BFSI, healthcare, and government.",
+    website:      'https://dhruvacloud.com',
+    founded:      '2012',
+    hq:           'Mumbai, India',
+    deployments:  ['Cloud', 'Hybrid'],
+    platforms:    ['Windows', 'Linux', 'VMware', 'Physical Servers', 'NAS/SAN'],
+    strengths:    ['India data sovereignty', 'INR pricing', 'BFSI/healthcare compliance', 'Local support'],
+    badge:        'Made in India',
+    pricingModel: 'subscription',
+    startingPrice: '₹1,500/mo',
+    plans: [
+      { name: 'Starter', price: '₹1,500/mo', target: 'SMB', features: ['100 GB backup', 'File & folder', 'Indian data center', 'Email support'] },
+      { name: 'Business', price: '₹4,500/mo', target: 'Mid-market', features: ['1 TB backup', 'Server backup', 'Disaster recovery', '24/7 support'], popular: true },
+      { name: 'Enterprise', price: 'Contact Sales', target: 'Enterprise', features: ['Unlimited storage', 'Custom DR SLA', 'Dedicated account manager', 'VAPT compliance'] },
+    ],
+  },
+  {
+    id:           'veritas-opentext',
+    name:         'Veritas / OpenText',
+    slug:         'veritas-opentext',
+    logo:         '🏢',
+    tagline:      'Enterprise data management and information governance',
+    description:  "Veritas, now part of OpenText, has been protecting enterprise data since 1989. NetBackup is trusted by 87% of Fortune 500 companies. The platform spans backup, recovery, eDiscovery, compliance, and information governance.",
+    website:      'https://veritas.com',
+    founded:      '1989',
+    hq:           'Waterloo, Canada (OpenText HQ)',
+    deployments:  ['On-Premises', 'Cloud', 'SaaS', 'Hybrid'],
+    platforms:    ['VMware', 'Hyper-V', 'AWS', 'Azure', 'GCP', 'Oracle', 'SAP', 'Physical', 'NAS'],
+    strengths:    ['Fortune 500 trusted', 'eDiscovery & compliance', 'Broad platform support', 'NetBackup scalability'],
+    badge:        'Fortune 500 Choice',
+    pricingModel: 'custom',
+    startingPrice: 'Contact Sales',
+    plans: [
+      { name: 'NetBackup', price: 'Contact Sales', target: 'Enterprise', features: ['Backup & recovery', 'Deduplication', 'Cloud storage', 'Orchestrated recovery'] },
+      { name: 'Backup Exec', price: 'Contact Sales', target: 'SMB', features: ['Simplified management', 'Physical & virtual', 'Cloud storage tiers', 'Simple licensing'], popular: true },
+      { name: 'Alta Data Protection', price: 'Contact Sales', target: 'Enterprise', features: ['SaaS-based', 'Multi-cloud', 'Ransomware recovery', 'Governance & compliance'] },
+    ],
+  },
+  {
+    id:           'rubrik',
+    name:         'Rubrik',
+    slug:         'rubrik',
+    logo:         '💎',
+    tagline:      'Zero-trust data security and cyber recovery',
+    description:  'Rubrik is a next-gen cyber recovery platform that combines cloud data management with zero-trust security. Its Security Cloud provides ransomware protection, sensitive data monitoring, and orchestrated cyber recovery — all from a single platform.',
+    website:      'https://rubrik.com',
+    founded:      '2014',
+    hq:           'Palo Alto, CA, USA',
+    deployments:  ['Cloud', 'SaaS', 'Hybrid', 'On-Premises'],
+    platforms:    ['VMware', 'Hyper-V', 'AWS', 'Azure', 'GCP', 'Microsoft 365', 'Kubernetes', 'NAS', 'Physical'],
+    strengths:    ['Zero-trust architecture', 'Ransomware recovery', 'Sensitive data discovery', 'Instant recovery'],
+    badge:        'Cloud-Native Pioneer',
+    pricingModel: 'subscription',
+    startingPrice: 'Contact Sales',
+    plans: [
+      { name: 'Security Cloud', price: 'Contact Sales', target: 'Enterprise', features: ['Data observability', 'Threat hunting', 'Sensitive data monitoring', 'Ransomware investigation'] },
+      { name: 'Data Protection', price: 'Contact Sales', target: 'Enterprise', features: ['Backup & recovery', 'Instant recovery', 'Cloud archive', 'Policy automation'], popular: true },
+      { name: 'Cyber Recovery', price: 'Contact Sales', target: 'Enterprise', features: ['Isolated recovery environment', 'Orchestrated DR', 'Compliance', 'Full Security Cloud'] },
+    ],
+  },
+]
+
+/** Get a backup vendor by slug */
+export const getBackupVendor = (slug: string) => BACKUP_VENDORS.find(v => v.slug === slug)
