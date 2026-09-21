@@ -28,6 +28,7 @@ const PROVIDER_COLORS: Record<ProviderId, string> = {
   azure: 'bg-blue-500/10   border-blue-500/30',
   gcp:   'bg-red-500/10    border-red-500/30',
   ace:   'bg-teal-500/10   border-teal-500/30',
+  utho:  'bg-orange-400/10 border-orange-400/30',
 }
 
 export default function BillPage() {

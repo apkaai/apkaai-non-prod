@@ -44,9 +44,9 @@ const FEATURES = [
 ]
 
 const STATS = [
-  { value: '4',   label: 'Cloud Providers' },
-  { value: '30+', label: 'Services Covered' },
-  { value: '15',  label: 'Regions' },
+  { value: '5',   label: 'Cloud Providers' },
+  { value: '35+', label: 'Services Covered' },
+  { value: '20',  label: 'Regions' },
   { value: 'USD/INR/EUR/GBP', label: 'Currencies' },
 ]
 
@@ -64,6 +64,7 @@ const PROVIDER_COLORS: Record<ProviderId, string> = {
   azure: 'border-blue-500/40   hover:border-blue-400   bg-blue-500/5',
   gcp:   'border-red-500/40    hover:border-red-400    bg-red-500/5',
   ace:   'border-teal-500/40   hover:border-teal-400   bg-teal-500/5',
+  utho:  'border-orange-400/40 hover:border-orange-300 bg-orange-400/5',
 }
 
 export default function CloudPage() {
@@ -98,7 +99,7 @@ export default function CloudPage() {
 
           <p className="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
             Compare cloud services, calculate infrastructure costs, and build your cloud bill
-            across AWS, Azure, Google Cloud and ACE Cloud — all in one place.
+            across AWS, Azure, Google Cloud, ACE Cloud and <span className="text-orange-400 font-semibold">Utho 🇮🇳</span> — all in one place.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
@@ -131,7 +132,7 @@ export default function CloudPage() {
           <p className="text-slate-400 text-sm">Click a provider to open the calculator with it pre-selected</p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {PROVIDERS.map(p => (
             <button
               key={p.id}
@@ -146,6 +147,11 @@ export default function CloudPage() {
               <span className="text-xs text-slate-600 group-hover:text-sky-400 flex items-center gap-1 transition-colors">
                 Open Calculator <ChevronRight className="w-3 h-3" />
               </span>
+              {p.id === 'utho' && (
+                <span className="text-[10px] bg-orange-500/20 border border-orange-500/30 text-orange-300 px-2 py-0.5 rounded-full font-semibold">
+                  India-based
+                </span>
+              )}
             </button>
           ))}
         </div>

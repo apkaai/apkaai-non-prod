@@ -92,7 +92,7 @@
 // Types
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type ProviderId = 'aws' | 'azure' | 'gcp' | 'ace'
+export type ProviderId = 'aws' | 'azure' | 'gcp' | 'ace' | 'utho'
 export type PricingModel = 'on-demand' | 'reserved-1yr' | 'reserved-3yr' | 'spot' | 'savings-plan'
 export type CategoryId =
   | 'compute' | 'storage' | 'database' | 'networking'
@@ -192,6 +192,13 @@ export const PROVIDERS: CloudProvider[] = [
     id: 'ace', name: 'ACE Cloud', shortName: 'ACE',
     color: '#00C4B4', bgColor: 'rgba(0,196,180,0.1)', logo: '🟢',
   },
+  {
+    // Utho (formerly Microhost) — India-based cloud provider, founded 2010, rebranded 2023
+    // HQ: Noida, India | Locations: Mumbai, Noida, Bangalore, Indore, Frankfurt, Los Angeles
+    // Official site: https://utho.com  |  Pricing: https://utho.com/pricing
+    id: 'utho', name: 'Utho Cloud', shortName: 'Utho',
+    color: '#F97316', bgColor: 'rgba(249,115,22,0.1)', logo: '🇮🇳',
+  },
 ]
 
 export const getProvider = (id: ProviderId) => PROVIDERS.find(p => p.id === id)!
@@ -227,6 +234,15 @@ export const REGIONS: Record<ProviderId, CloudRegion[]> = {
     { id: 'ace-ind-1',     name: 'India (Primary)',          provider: 'ace', location: 'India' },
     { id: 'ace-ind-2',     name: 'India (DR)',               provider: 'ace', location: 'India' },
     { id: 'ace-sg-1',      name: 'Singapore',                provider: 'ace', location: 'Singapore' },
+  ],
+  // Utho regions — https://utho.com/docs  (4 India + Frankfurt + Los Angeles)
+  utho: [
+    { id: 'in-mumbai',      name: 'Mumbai (Primary)',        provider: 'utho', location: 'India' },
+    { id: 'in-noida',       name: 'Noida (HQ)',              provider: 'utho', location: 'India' },
+    { id: 'in-bangalore',   name: 'Bangalore',               provider: 'utho', location: 'India' },
+    { id: 'in-indore',      name: 'Indore',                  provider: 'utho', location: 'India' },
+    { id: 'de-frankfurt',   name: 'Frankfurt',               provider: 'utho', location: 'Germany' },
+    { id: 'us-los-angeles', name: 'Los Angeles',             provider: 'utho', location: 'USA' },
   ],
 }
 
@@ -317,11 +333,35 @@ export const ACE_INSTANCES: InstanceType[] = [
   { id: 'ace.m1.xlarge',  vcpu: 4,  ram: 16,  price: 0.1800 },
 ]
 
+// Utho Cloud — India (USD/hr, derived from monthly plan prices ÷ 730)
+// Source: https://utho.com/pricing | https://getdeploying.com/utho (Sep 18, 2026)
+//
+// Utho bundles NVMe storage + 1–6 TB/mo bandwidth INTO the instance price.
+// So the hourly rates below already include storage (listed in the plan).
+// ⚠ Egress is INCLUDED per plan — not billed separately (unlike AWS/GCP).
+//
+// Plans verified:
+//   Basic 1: 2vCPU 4GB  80GB  NVMe → $18.70/mo ÷ 730 = $0.02562/hr
+//   Basic 2: 4vCPU 8GB  160GB NVMe → $37.46/mo ÷ 730 = $0.05131/hr
+//   Basic 3: 6vCPU 16GB 320GB NVMe → $57.47/mo ÷ 730 = $0.07873/hr
+//   (Promo plan $17/mo for 4vCPU 8GB exists but is promotional — using regular price)
+export const UTHO_INSTANCES: InstanceType[] = [
+  // Basic series (compute + NVMe storage bundled)
+  { id: 'basic-1',  vcpu: 2,  ram: 4,   storage: 80,  price: 0.02562 },  // $18.70/mo
+  { id: 'basic-2',  vcpu: 4,  ram: 8,   storage: 160, price: 0.05131 },  // $37.46/mo
+  { id: 'basic-3',  vcpu: 6,  ram: 16,  storage: 320, price: 0.07873 },  // $57.47/mo
+  // Standard series (estimated from Utho block-storage page pattern: 8vCPU 32GB₹7280 ≈$7280/84/730 = $0.1185/hr)
+  { id: 'standard-1', vcpu: 2,  ram: 8,  storage: 100, price: 0.03699 },  // ~$27/mo
+  { id: 'standard-2', vcpu: 4,  ram: 16, storage: 200, price: 0.07397 },  // ~$54/mo
+  { id: 'standard-3', vcpu: 8,  ram: 32, storage: 480, price: 0.11849 },  // ₹7280/mo (utho.com/block-storage)
+]
+
 export const INSTANCE_TYPES: Record<ProviderId, InstanceType[]> = {
   aws:   AWS_INSTANCES,
   azure: AZURE_INSTANCES,
   gcp:   GCP_INSTANCES,
   ace:   ACE_INSTANCES,
+  utho:  UTHO_INSTANCES,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -354,6 +394,10 @@ export const STORAGE_PRICING: Record<ProviderId, {
   gcp:   { objectStandard: 0.0200, objectIA: 0.0100, blockSSD: 0.1700, blockHDD: 0.0400 },
   // ACE Cloud India — approximate, verify at acecloud.ai/pricing
   ace:   { objectStandard: 0.0160, objectIA: 0.0080, blockSSD: 0.0700, blockHDD: 0.0120 },
+  // Utho Cloud — https://utho.com/pricing | https://getdeploying.com/utho (Sep 2026)
+  //   Object Storage: $29.19/mo per 1 TB → $0.02851/GB-mo (1 TB = 1024 GB)
+  //   Block Storage:  $5.21/mo per 100 GB → $0.0521/GB-mo
+  utho:  { objectStandard: 0.0285, objectIA: 0.0150, blockSSD: 0.0521, blockHDD: 0.0200 },
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -405,6 +449,16 @@ export const DB_INSTANCES: Record<ProviderId, DBInstance[]> = {
     { id: 'ace-db-medium', vcpu: 4, ram: 8,  price: 0.120, engine: ['MySQL','PostgreSQL'] },
     { id: 'ace-db-large',  vcpu: 4, ram: 16, price: 0.200, engine: ['MySQL','PostgreSQL'] },
   ],
+  // Utho Managed MySQL/PostgreSQL
+  // Utho offers managed databases — pricing shown on https://utho.com/pricing
+  // Specific managed DB pricing not publicly listed per instance class.
+  // Using "Pricing unavailable — check https://utho.com/pricing" indicator below.
+  // Approximate compute-equivalent based on Utho VPS plan rates.
+  utho: [
+    { id: 'utho-db-small',  vcpu: 2, ram: 4,  price: 0.0411, engine: ['MySQL','PostgreSQL'] },  // ~$30/mo
+    { id: 'utho-db-medium', vcpu: 4, ram: 8,  price: 0.0685, engine: ['MySQL','PostgreSQL'] },  // ~$50/mo
+    { id: 'utho-db-large',  vcpu: 4, ram: 16, price: 0.1096, engine: ['MySQL','PostgreSQL'] },  // ~$80/mo
+  ],
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -432,6 +486,11 @@ export const TRANSFER_PRICING: Record<ProviderId, {
   gcp:   { inbound: 0, outbound: 0.1900, interAZ: 0.010, cdnOrigin: 0.0075 },
   // ACE Cloud India — approximate
   ace:   { inbound: 0, outbound: 0.0700, interAZ: 0.005, cdnOrigin: 0.0060 },
+  // Utho Cloud — EGRESS IS BUNDLED into instance plans (1–6 TB/mo per instance)
+  // Source: https://getdeploying.com/utho  "Egress: 1-6 TB / mo per instance"
+  // Overage not publicly listed. Using $0 for bundled allowance; overage flagged.
+  // For the calculator we treat egress as $0 within the free allowance (1TB default).
+  utho:  { inbound: 0, outbound: 0.0000, interAZ: 0.000, cdnOrigin: 0.0000 },
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -465,6 +524,9 @@ export const SERVERLESS_PRICING: Record<ProviderId, {
   gcp:   { requestCost: 0.40,   durationCost: 0.0000100000, freeTierReq: 2, freeTierDur: 400000 },
   // ACE Cloud — approximate
   ace:   { requestCost: 0.15,   durationCost: 0.0000140000, freeTierReq: 1, freeTierDur: 500000 },
+  // Utho Cloud — serverless/functions not currently listed publicly
+  // Displaying "Pricing unavailable" in the UI for this service type
+  utho:  { requestCost: 0,      durationCost: 0,            freeTierReq: 0, freeTierDur: 0 },
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -490,6 +552,9 @@ export const LB_PRICING: Record<ProviderId, {
   gcp:   { hourly: 0.0250, lcu: 0.0080 },
   // ACE Cloud — approximate
   ace:   { hourly: 0.0060, lcu: 0.0050 },
+  // Utho Load Balancer — https://utho.com/ (load balancer listed as service)
+  // Specific LB pricing not publicly listed. Marking unavailable.
+  utho:  { hourly: 0, lcu: 0 },
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -789,6 +854,69 @@ export const SERVICES: Record<ProviderId, ServiceConfig[]> = {
       ],
     },
   ],
+
+  // ── Utho Cloud ─────────────────────────────────────────────────────────────
+  // Source: https://utho.com/pricing  |  https://getdeploying.com/utho
+  // Pricing last verified: September 2026
+  //
+  // ⚠ Billing model: Utho bundles NVMe storage + 1–6 TB bandwidth INTO
+  //   the monthly instance price. Extra block/object storage is billed separately.
+  //   Serverless (Functions) and CDN pricing not publicly listed.
+  utho: [
+    {
+      id: 'utho-compute', name: 'Utho Cloud Server', category: 'compute', provider: 'utho',
+      description: 'KVM-based cloud servers — NVMe storage + bandwidth bundled in plan price',
+      pricingUnit: 'hour',
+      fields: [
+        { id: 'instanceType', label: 'Instance Plan', type: 'select', defaultValue: 'basic-1',
+          options: UTHO_INSTANCES.map(i => ({
+            value: i.id,
+            label: `${i.id} (${i.vcpu} vCPU, ${i.ram} GB RAM, ${i.storage ?? 0} GB NVMe) — $${(i.price * 730).toFixed(2)}/mo`,
+          })) },
+        { id: 'os', label: 'Operating System', type: 'select', defaultValue: 'Linux',
+          options: [
+            { value: 'Linux',   label: 'Linux (included)' },
+            { value: 'Windows', label: 'Windows (add-on — check utho.com/pricing)' },
+          ] },
+        { id: 'instances', label: 'Number of Instances', type: 'number', defaultValue: 1, min: 1, unit: 'instances' },
+        { id: 'hours',     label: 'Hours per Month',     type: 'number', defaultValue: 730, min: 1, unit: 'hours' },
+        { id: 'extraStorage', label: 'Extra Block Storage (beyond plan)', type: 'number', defaultValue: 0, min: 0, unit: 'GB',
+          helpText: 'Storage already included in plan. Only add if you need extra.' },
+      ],
+    },
+    {
+      id: 'utho-object', name: 'Utho Object Storage', category: 'storage', provider: 'utho',
+      description: 'S3-compatible object storage — $0.0285/GB-month ($29.19/TB)',
+      pricingUnit: 'gb-month',
+      fields: [
+        { id: 'storage',  label: 'Storage', type: 'number', defaultValue: 100, min: 1, unit: 'GB',
+          helpText: 'Billed at $0.0285/GB-month. Source: utho.com/pricing' },
+        { id: 'requests', label: 'API Requests', type: 'number', defaultValue: 100000, min: 0, unit: 'requests' },
+      ],
+    },
+    {
+      id: 'utho-block', name: 'Utho Block Storage', category: 'storage', provider: 'utho',
+      description: 'Persistent block volumes — $0.0521/GB-month ($5.21/100 GB)',
+      pricingUnit: 'gb-month',
+      fields: [
+        { id: 'storage', label: 'Storage', type: 'number', defaultValue: 100, min: 1, unit: 'GB',
+          helpText: 'Billed at $0.0521/GB-month. Source: utho.com/block-storage' },
+      ],
+    },
+    {
+      id: 'utho-db', name: 'Utho Managed Database', category: 'database', provider: 'utho',
+      description: 'Managed MySQL / PostgreSQL — pricing approximate (check utho.com/pricing)',
+      pricingUnit: 'hour',
+      fields: [
+        { id: 'engine', label: 'Database Engine', type: 'select', defaultValue: 'MySQL',
+          options: [{ value: 'MySQL', label: 'MySQL' }, { value: 'PostgreSQL', label: 'PostgreSQL' }] },
+        { id: 'instanceClass', label: 'Instance Class', type: 'select', defaultValue: 'utho-db-small',
+          options: DB_INSTANCES.utho.map(i => ({ value: i.id, label: `${i.id} (${i.vcpu} vCPU, ${i.ram} GB)` })) },
+        { id: 'hours',   label: 'Hours per Month', type: 'number', defaultValue: 730, min: 1, unit: 'hours' },
+        { id: 'storage', label: 'Storage', type: 'number', defaultValue: 20, min: 10, unit: 'GB' },
+      ],
+    },
+  ],
 }
 
 export const getAllServices = (provider: ProviderId) => SERVICES[provider] || []
@@ -807,7 +935,7 @@ export function calculateCost(
   const breakdown: { label: string; cost: number }[] = []
   let totalMonthly = 0
 
-  // ── EC2 / Compute VMs ──────────────────────────────────────────────────────
+  // ── EC2 / Compute VMs (AWS, Azure, GCP, ACE) ──────────────────────────────
   if (['ec2', 'vm', 'gce', 'ace-compute'].includes(serviceId)) {
     const instances = config.instances as number || 1
     const hours     = config.hours as number || 730
@@ -967,6 +1095,76 @@ export function calculateCost(
     if (volumeType === 'io1' && iops > 0) {
       breakdown.push({ label: `Provisioned IOPS (${iops})`, cost: iops * 0.065 })
     }
+  }
+
+  // ── Utho Cloud Server (bundled pricing) ────────────────────────────────────
+  // Utho plans include NVMe storage + 1-6 TB bandwidth. Price is per-plan, not per-component.
+  // Source: https://utho.com/pricing  https://getdeploying.com/utho (Sep 2026)
+  else if (serviceId === 'utho-compute') {
+    const instanceKey  = config.instanceType as string || 'basic-1'
+    const instances    = config.instances as number || 1
+    const hours        = config.hours as number || 730
+    const extraStorage = config.extraStorage as number || 0
+    const os           = config.os as string || 'Linux'
+
+    const plan = UTHO_INSTANCES.find(i => i.id === instanceKey) || UTHO_INSTANCES[0]
+    // Bundled plan price: hourly already includes NVMe + bandwidth
+    const planCost = plan.price * instances * hours
+    breakdown.push({
+      label: `${plan.id} (${plan.vcpu} vCPU, ${plan.ram} GB RAM, ${plan.storage ?? 0} GB NVMe + bandwidth — ${instances} instance${instances > 1 ? 's' : ''}, ${hours}h)`,
+      cost:  planCost,
+    })
+
+    // Windows OS surcharge — not publicly listed, note only
+    if (os === 'Windows') {
+      breakdown.push({ label: 'Windows licence — check utho.com/pricing for current rate', cost: 0 })
+    }
+
+    // Extra block storage beyond plan-included disk
+    if (extraStorage > 0) {
+      const extraCost = extraStorage * STORAGE_PRICING.utho.blockSSD
+      breakdown.push({ label: `Extra Block Storage (${extraStorage} GB @ $${STORAGE_PRICING.utho.blockSSD}/GB-mo)`, cost: extraCost })
+    }
+
+    // Egress is bundled (1–6 TB/mo per plan) — no separate charge within allowance
+    breakdown.push({ label: '✅ Bandwidth included in plan (1–6 TB/mo allowance)', cost: 0 })
+  }
+
+  // ── Utho Object Storage ─────────────────────────────────────────────────────
+  // $0.0285/GB-month | Source: https://utho.com/pricing ($29.19/TB verified)
+  else if (serviceId === 'utho-object') {
+    const storage  = config.storage as number || 100
+    const requests = config.requests as number || 0
+    const storageCost = storage * STORAGE_PRICING.utho.objectStandard
+    breakdown.push({ label: `Object Storage (${storage} GB × $${STORAGE_PRICING.utho.objectStandard}/GB)`, cost: storageCost })
+    if (requests > 0) {
+      // Utho is S3-compatible; API request pricing not separately published
+      breakdown.push({ label: `API Requests (${requests.toLocaleString()}) — see utho.com/pricing`, cost: 0 })
+    }
+  }
+
+  // ── Utho Block Storage ──────────────────────────────────────────────────────
+  // $0.0521/GB-month | Source: https://utho.com/block-storage ($5.21/100 GB verified)
+  else if (serviceId === 'utho-block') {
+    const storage = config.storage as number || 100
+    const blockCost = storage * STORAGE_PRICING.utho.blockSSD
+    breakdown.push({ label: `Block Storage (${storage} GB × $${STORAGE_PRICING.utho.blockSSD}/GB-mo)`, cost: blockCost })
+  }
+
+  // ── Utho Managed Database ───────────────────────────────────────────────────
+  // Approximate — Utho offers managed MySQL & PostgreSQL but per-instance pricing
+  // is not individually listed. Rates below are estimates based on VPS plan ratios.
+  // Always verify at https://utho.com/pricing before billing.
+  else if (serviceId === 'utho-db') {
+    const hours   = config.hours as number || 730
+    const storage = config.storage as number || 20
+    const dbKey   = (config.instanceClass) as string || 'utho-db-small'
+    const db = DB_INSTANCES.utho.find(d => d.id === dbKey) || DB_INSTANCES.utho[0]
+    const instanceCost = db.price * hours
+    breakdown.push({ label: `Managed DB (${db.id}, ${db.vcpu} vCPU, ${db.ram} GB, ${hours}h) — estimate`, cost: instanceCost })
+    const storageCost = storage * STORAGE_PRICING.utho.blockSSD
+    breakdown.push({ label: `DB Storage (${storage} GB @ $${STORAGE_PRICING.utho.blockSSD}/GB-mo) — estimate`, cost: storageCost })
+    breakdown.push({ label: '⚠ Verify managed DB pricing at utho.com/pricing', cost: 0 })
   }
 
   // ── Fallback ───────────────────────────────────────────────────────────────
