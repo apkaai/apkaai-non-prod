@@ -5,7 +5,6 @@ import Footer from '@/components/Footer'
 import FloatingSocialWidget from '@/components/FloatingSocialWidget'
 import AIChatbot from '@/components/AIChatbot'
 import StarryBackground from '@/components/StarryBackground'
-import ComingSoonWatermark from '@/components/ComingSoonWatermark'
 import GaneshaFloat from '@/components/GaneshaFloat'
 import { CartProvider } from '@/lib/cart-context'
 import CartDrawer from '@/components/cart/CartDrawer'
@@ -43,7 +42,6 @@ export default function RootLayout({
       <body className="bg-[#08051A] text-slate-100 antialiased relative">
         <CartProvider>
           <StarryBackground />
-          <ComingSoonWatermark />
           <Navbar />
           <CartDrawer />
           <main>{children}</main>
