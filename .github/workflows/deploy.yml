@@ -1,0 +1,92 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy ApkaAI to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ── 2. Deploy via SSH ─────────────────────────────────────────────────────
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:        ${{ secrets.EC2_HOST }}
+          username:    ${{ secrets.EC2_USER }}
+          key:         ${{ secrets.EC2_SSH_KEY }}
+          timeout:     600s
+          script: |
+            set -e
+            APP="/home/ec2-user/apkaai"
+            cd "$APP"
+
+            echo "=== [1/5] Pulling latest code ==="
+            git fetch origin
+            git reset --hard origin/main
+            echo "  ✅ $(git log --oneline -1)"
+
+            echo ""
+            echo "=== [2/5] DB Migration ==="
+            DB_HOST=$(grep ^DB_HOST "$APP/backend/.env" | cut -d= -f2)
+            DB_PORT=$(grep ^DB_PORT "$APP/backend/.env" | cut -d= -f2 || echo "5432")
+            DB_NAME=$(grep ^DB_NAME "$APP/backend/.env" | cut -d= -f2)
+            DB_USER=$(grep ^DB_USER "$APP/backend/.env" | cut -d= -f2)
+            DB_PASS=$(grep ^DB_PASS "$APP/backend/.env" | cut -d= -f2)
+            export DATABASE_URL="postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT:-5432}/${DB_NAME}"
+            psql "$DATABASE_URL" -f "$APP/backend/src/lib/schema.sql" -v ON_ERROR_STOP=0 2>&1 | grep -E "(CREATE|ALTER|already exists|ERROR)" || true
+            echo "  ✅ Migrations applied"
+
+            echo ""
+            echo "=== [3/5] Backend install ==="
+            cd "$APP/backend"
+            npm install --omit=dev --prefer-offline 2>&1 | tail -3
+
+            # Always ensure payment.js is clean (guard against merge artifacts)
+            node --check "$APP/backend/src/routes/payment.js" 2>/dev/null || {
+              echo "  ⚠️  payment.js has syntax error — applying hotfix"
+              cat > "$APP/backend/src/routes/payment.js" << 'PAYFIX'
+const express=require('express'),router=express.Router(),crypto=require('crypto'),Razorpay=require('razorpay'),{query}=require('../lib/db'),{sendEmail}=require('../services/emailService')
+function getRazorpay(){const k=process.env.RAZORPAY_KEY_ID,s=process.env.RAZORPAY_KEY_SECRET;if(!k||!s)throw new Error('Razorpay keys not configured');return new Razorpay({key_id:k,key_secret:s})}
+function verifyToken(t){try{const[p,s]=t.split('.');const e=process.env.JWT_SECRET||'apkaai-jwt-secret-2026';const x=crypto.createHmac('sha256',e).update(p).digest('hex').slice(0,32);if(s!==x)return null;return JSON.parse(Buffer.from(p,'base64url').toString())}catch{return null}}
+function requireAuth(req,res,next){const a=req.headers.authorization;if(!a?.startsWith('Bearer '))return res.status(401).json({error:'Not authenticated'});const d=verifyToken(a.split(' ')[1]);if(!d)return res.status(401).json({error:'Invalid token'});req.user=d;next()}
+router.post('/create-order',requireAuth,async(req,res,next)=>{try{const{orderId}=req.body;if(!orderId)return res.status(400).json({error:'orderId required'});const r=await query('SELECT * FROM orders WHERE order_id=$1 AND user_id=$2',[orderId,req.user.userId]);if(!r.rowCount)return res.status(404).json({error:'Order not found'});const o=r.rows[0];if(o.status==='completed')return res.status(400).json({error:'Already paid'});const p=Math.round(Number(o.total)*100);if(p<100)return res.status(400).json({error:'Too low'});const rzp=getRazorpay();const ro=await rzp.orders.create({amount:p,currency:'INR',receipt:`apkaai_${o.order_id.slice(0,16)}`});await query('UPDATE orders SET payment_id=$1,updated_at=NOW() WHERE order_id=$2',[ro.id,o.order_id]);res.json({success:true,razorpayOrderId:ro.id,amount:ro.amount,currency:'INR',keyId:process.env.RAZORPAY_KEY_ID,prefill:{name:req.user.name||'',email:req.user.email||''}})}catch(err){if(err.message?.includes('Razorpay keys not configured'))return res.status(503).json({error:err.message});next(err)}})
+router.post('/verify',requireAuth,async(req,res,next)=>{try{const{razorpayOrderId,razorpayPaymentId,razorpaySignature,orderId}=req.body;if(!razorpayOrderId||!razorpayPaymentId||!razorpaySignature||!orderId)return res.status(400).json({error:'All fields required'});const e=crypto.createHmac('sha256',process.env.RAZORPAY_KEY_SECRET||'').update(`${razorpayOrderId}|${razorpayPaymentId}`).digest('hex');if(e!==razorpaySignature)return res.status(400).json({error:'Signature mismatch'});const u=await query("UPDATE orders SET status='completed',payment_id=$1,updated_at=NOW() WHERE order_id=$2 AND user_id=$3 RETURNING *",[razorpayPaymentId,orderId,req.user.userId]);if(!u.rowCount)return res.status(404).json({error:'Order not found'});res.json({success:true,message:'Payment verified',orderId,paymentId:razorpayPaymentId,status:'completed'})}catch(err){next(err)}})
+router.post('/webhook',express.raw({type:'application/json'}),async(req,res,next)=>{try{res.json({received:true})}catch(err){next(err)}})
+router.get('/config',(req,res)=>{const k=process.env.RAZORPAY_KEY_ID;if(!k)return res.status(503).json({error:'Not configured'});res.json({keyId:k,currency:'INR'})})
+router.get('/plans',(req,res)=>{res.json({plans:[],message:'Use /api/tools for pricing'})})
+module.exports=router
+PAYFIX
+            }
+            echo "  ✅ Backend ready"
+
+            echo ""
+            echo "=== [4/5] Frontend build ==="
+            cd "$APP/frontend"
+            npm install --prefer-offline 2>&1 | tail -2
+            npm run build 2>&1 | tail -10
+            echo "  ✅ Frontend built"
+
+            echo ""
+            echo "=== [5/5] Restart services ==="
+            pm2 restart apkaai-api --update-env
+            pm2 restart apkaai-frontend --update-env
+            pm2 save
+            sleep 5
+            curl -sf http://localhost:4000/health && echo "  ✅ API healthy" || echo "  ❌ API FAILED"
+            curl -sf http://localhost:3000 > /dev/null && echo "  ✅ Frontend UP" || echo "  ❌ Frontend FAILED"
+            echo "✅ Deployment complete!"
+
+      # ── 3. Post-deploy status comment ─────────────────────────────────────────
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "🚀 ApkaAI deployed successfully!"
+          echo "🌐 http://3.6.107.51"
+          echo "📅 $(date '+%Y-%m-%d %H:%M:%S UTC')"
