@@ -7,6 +7,7 @@ import AIChatbot from '@/components/AIChatbot'
 import StarryBackground from '@/components/StarryBackground'
 import GaneshaFloat from '@/components/GaneshaFloat'
 import { CartProvider } from '@/lib/cart-context'
+import { WishlistProvider } from '@/lib/wishlist-context'
 import CartDrawer from '@/components/cart/CartDrawer'
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-[#08051A] text-slate-100 antialiased relative">
         <CartProvider>
+          <WishlistProvider>
           <StarryBackground />
           <Navbar />
           <CartDrawer />
@@ -52,6 +54,7 @@ export default function RootLayout({
             <FloatingSocialWidget />
           </div>
           <GaneshaFloat />
+        </WishlistProvider>
         </CartProvider>
       </body>
     </html>

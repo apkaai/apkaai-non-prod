@@ -1,63 +1,43 @@
 'use client'
-/**
- * PaymentModal.tsx
- * ─────────────────────────────────────────────────────────────
- * Handles the full Razorpay checkout flow:
- * 1. Calls POST /api/orders  → creates order in DB (status: pending)
- * 2. Calls POST /api/payment/create-order → creates Razorpay order
- * 3. Opens Razorpay checkout UI
- * 4. On success → calls POST /api/payment/verify → marks order completed
- * 5. Fires onSuccess(orderId) so parent can show confirmation screen
- */
 import { useState, useEffect, useCallback } from 'react'
 import {
   X, ShieldCheck, Loader2, AlertCircle,
   CreditCard, Lock, Zap
 } from 'lucide-react'
 import type { CartItem } from '@/lib/cart-context'
-
-// ─── Razorpay global types ────────────────────────────────────────────────────
 declare global {
   interface Window {
-    Razorpay: new (options: RazorpayOptions) => RazorpayInstance
+    Razorpay: new (opts: object) => { open: () => void }
   }
 }
-interface RazorpayOptions {
-  key:            string
-  amount:         number
-  currency:       string
-  name:           string
-  description:    string
-  image?:         string
-  order_id:       string
-  handler:        (response: RazorpayResponse) => void
-  prefill?:       { name?: string; email?: string; contact?: string }
-  notes?:         Record<string, string>
-  theme?:         { color?: string }
-  modal?:         { ondismiss?: () => void }
-}
+
+// Compatible with existing Window.Razorpay declaration in plans/page.tsx
+// No duplicate declare global needed here
+
 interface RazorpayResponse {
-  razorpay_order_id:   string
   razorpay_payment_id: string
+  razorpay_order_id:   string
   razorpay_signature:  string
 }
-interface RazorpayInstance { open(): void }
 
-// ─── Props ────────────────────────────────────────────────────────────────────
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || ''
+
 interface PaymentModalProps {
-  items:        CartItem[]
-  subtotal:     number
-  discount:     number
-  tax:          number
-  total:        number
-  couponCode:   string | null
-  onSuccess:    (orderId: string) => void
-  onClose:      () => void
+  isOpen:      boolean
+  onClose:     () => void
+  onSuccess:   (orderId: string, paymentId: string) => void
+  items:       CartItem[]
+  subtotal:    number
+  discount:    number
+  tax:         number
+  total:       number
+  couponCode?: string | null
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'
+type Step = 'confirm' | 'processing' | 'success' | 'error'
 
+
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'
 function getToken() {
   if (typeof window === 'undefined') return null
   return localStorage.getItem('apkaai_token') || sessionStorage.getItem('apkaai_token')
@@ -69,21 +49,16 @@ function getUser() {
     return u ? JSON.parse(u) : null
   } catch { return null }
 }
-
 function loadRazorpayScript(): Promise<boolean> {
   return new Promise(resolve => {
     if (typeof window !== 'undefined' && window.Razorpay) { resolve(true); return }
-    const script    = document.createElement('script')
-    script.src      = 'https://checkout.razorpay.com/v1/checkout.js'
-    script.onload   = () => resolve(true)
-    script.onerror  = () => resolve(false)
+    const script = document.createElement('script')
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+    script.onload = () => resolve(true)
+    script.onerror = () => resolve(false)
     document.body.appendChild(script)
   })
 }
-
-type Step = 'confirm' | 'processing' | 'error'
-
-// ─── Component ────────────────────────────────────────────────────────────────
 export default function PaymentModal({
   items, subtotal, discount, tax, total, couponCode,
   onSuccess, onClose,
@@ -145,7 +120,7 @@ export default function PaymentModal({
       setStatusMsg('Opening payment window...')
 
       await new Promise<void>((resolve, reject) => {
-        const options: RazorpayOptions = {
+        const options = {
           key:         rzpData.keyId,
           amount:      rzpData.amount,
           currency:    rzpData.currency || 'INR',
@@ -163,7 +138,7 @@ export default function PaymentModal({
               reject(new Error('PAYMENT_DISMISSED'))
             },
           },
-          handler: async (response: RazorpayResponse) => {
+          handler: async (response: any) => {
             try {
               // ── 5. Verify payment on backend ─────────────────────────────
               setStatusMsg('Verifying payment...')
@@ -180,7 +155,7 @@ export default function PaymentModal({
               const verifyData = await verifyRes.json()
               if (!verifyRes.ok) throw new Error(verifyData.error || 'Payment verification failed')
               resolve()
-              onSuccess(apkaaiOrderId)
+              onSuccess(apkaaiOrderId, response.razorpay_payment_id)
             } catch (err) {
               reject(err)
             }

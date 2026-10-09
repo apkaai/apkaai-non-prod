@@ -15,11 +15,6 @@ interface Plan {
   badge: string | null
 }
 
-declare global {
-  interface Window {
-    Razorpay: new (opts: object) => { open: () => void }
-  }
-}
 
 const PLAN_ICONS: Record<string, React.ReactNode> = {
   basic:      <Zap className="w-6 h-6" />,
