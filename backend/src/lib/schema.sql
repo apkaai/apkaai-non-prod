@@ -318,3 +318,48 @@ CREATE INDEX IF NOT EXISTS idx_demo_status      ON demo_bookings(status);
 CREATE OR REPLACE TRIGGER demo_bookings_updated_at
   BEFORE UPDATE ON demo_bookings
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- ── zoom_tokens ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS zoom_tokens (
+  user_id       UUID         PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
+  zoom_user_id  VARCHAR(200),
+  zoom_email    VARCHAR(200),
+  access_token  TEXT         NOT NULL,
+  refresh_token TEXT,
+  token_type    VARCHAR(50)  DEFAULT 'Bearer',
+  expires_at    TIMESTAMPTZ,
+  scope         TEXT,
+  created_at    TIMESTAMPTZ  DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ  DEFAULT NOW()
+);
+
+-- ── videos ───────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS videos (
+  video_id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id               UUID         NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+  title                 VARCHAR(500) NOT NULL,
+  source                VARCHAR(50)  DEFAULT 'upload' CHECK (source IN ('upload','zoom')),
+  source_ref            VARCHAR(500),
+  input_bucket          VARCHAR(200),
+  input_key             VARCHAR(1000),
+  output_bucket         VARCHAR(200),
+  output_prefix         VARCHAR(1000),
+  status                VARCHAR(50)  DEFAULT 'uploading'
+                          CHECK (status IN ('uploading','processing','ready','failed')),
+  mediaconvert_job_id   VARCHAR(500),
+  available_resolutions TEXT[]       DEFAULT '{}',
+  manifest_key          VARCHAR(1000),
+  file_size             BIGINT       DEFAULT 0,
+  duration_seconds      INTEGER,
+  error_message         TEXT,
+  thumbnail_key         VARCHAR(1000),
+  created_at            TIMESTAMPTZ  DEFAULT NOW(),
+  updated_at            TIMESTAMPTZ  DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_videos_user_id ON videos(user_id);
+CREATE INDEX IF NOT EXISTS idx_videos_status  ON videos(status);
+
+CREATE OR REPLACE TRIGGER videos_updated_at
+  BEFORE UPDATE ON videos
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
