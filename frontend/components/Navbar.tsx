@@ -19,6 +19,8 @@ const navLinks = [
   { label: 'Contact',     href: '/contact' },
   { label: 'Cloud',       href: '/cloud' },
   { label: '📅 Book Demo', href: '/demo' },
+  { label: '⚡ Lambda',    href: '/lambda' },
+  { label: '🧠 SageMaker', href: '/sagemaker' },
 ]
 
 // ── Auth helpers ───────────────────────────────────────────────────────────────
