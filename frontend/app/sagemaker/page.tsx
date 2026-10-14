@@ -675,7 +675,7 @@ export default function SageMakerPage() {
 
 // ── Create Forms ──────────────────────────────────────────────────────────────
 const API2 = typeof process !== 'undefined' ? (process.env.NEXT_PUBLIC_API_URL || '') : ''
-function authH2() {
+function authH2(): Record<string, string> {
   const t = typeof window !== 'undefined' ? (localStorage.getItem('apkaai_token') || sessionStorage.getItem('apkaai_token')) : null
   return t ? { Authorization: `Bearer ${t}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
 }
